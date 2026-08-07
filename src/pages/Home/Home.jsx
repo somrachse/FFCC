@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Newsletter from '../../components/Newsletter/Newsletter';
 import churchHero from '../../assets/images/church-hero.png';
@@ -10,6 +10,14 @@ import './Home.css';
 
 const Home = () => {
   const iframeRef = useRef(null);
+  const eventsRef = useRef(null);
+  const trackRef = useRef(null);
+  const autoSlideRef = useRef(null);
+  const [isHovered, setIsHovered] = useState(false);
+  const isHoveredRef = useRef(false);
+  // pixels per second for auto-scroll; increase to speed up, decrease to slow down
+  // bumped up for a faster slide — change this value to tune speed
+  const AUTO_SLIDE_SPEED = 80;
 
   useEffect(() => {
     const postMessageCommand = (command) => {
@@ -41,6 +49,73 @@ const Home = () => {
 
     return () => {
       observer.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+
+    let rafId = null;
+    let lastTime = null;
+    let offset = 0;
+    let singleWidth = 0; // width of one set of cards
+
+    const trackWidth = () => track.scrollWidth;
+
+    const waitForImages = () => {
+      const imgs = Array.from(track.querySelectorAll('img'));
+      if (!imgs.length) return Promise.resolve();
+      return Promise.race([
+        Promise.all(
+          imgs.map((img) =>
+            img.complete
+              ? Promise.resolve()
+              : new Promise((res) => {
+                  img.addEventListener('load', res, { once: true });
+                  img.addEventListener('error', res, { once: true });
+                })
+          )
+        ),
+        // fallback in case loads hang
+        new Promise((res) => setTimeout(res, 1000)),
+      ]);
+    };
+
+    const step = (time) => {
+      if (lastTime == null) lastTime = time;
+      const delta = time - lastTime;
+      lastTime = time;
+
+      if (!isHoveredRef.current) {
+        const deltaPx = (AUTO_SLIDE_SPEED * delta) / 1000;
+        singleWidth = singleWidth || (trackWidth() / 2 || 1);
+        offset = (offset + deltaPx) % singleWidth;
+        // round to reduce subpixel jitter
+        const rounded = Math.round(offset * 100) / 100;
+        track.style.transform = `translate3d(${-rounded}px, 0, 0)`;
+      }
+
+      rafId = requestAnimationFrame(step);
+    };
+
+    waitForImages().then(() => {
+      // compute singleWidth precisely from DOM if possible
+      const cards = track.querySelectorAll('.event-card');
+      if (cards.length >= 2) {
+        const halfIndex = Math.floor(cards.length / 2);
+        if (cards[halfIndex]) {
+          singleWidth = cards[halfIndex].offsetLeft - cards[0].offsetLeft;
+        }
+      }
+      if (!singleWidth) singleWidth = trackWidth() / 2 || 1;
+      // ensure initial transform set
+      track.style.transform = 'translate3d(0,0,0)';
+      rafId = requestAnimationFrame(step);
+    });
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -101,6 +176,9 @@ const Home = () => {
       location: 'Camp Grace',
     },
   ];
+
+  // duplicate events for seamless infinite loop (enables circular scrolling)
+  const loopEvents = [...events, ...events];
 
   return (
     <main id="home-page">
@@ -192,29 +270,38 @@ const Home = () => {
               View All Events
             </Link>
           </div>
-          <div className="events-grid">
-            {events.map((event, i) => (
-              <div className="event-card" key={i} id={`event-card-${i}`}>
-                <div className="event-card-image">
-                  <img src={event.image} alt={event.title} />
-                  <span className="event-card-date">{event.date}</span>
-                </div>
-                <div className="event-card-body">
-                  <h3>{event.title}</h3>
-                  <p>{event.desc}</p>
-                  <div className="event-card-meta">
-                    <span>
-                      <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg>
-                      {event.time}
-                    </span>
-                    <span>
-                      <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" /></svg>
-                      {event.location}
-                    </span>
+          <div className="events-carousel-wrapper">
+            <div
+              className="events-carousel"
+              ref={eventsRef}
+              onMouseEnter={() => { setIsHovered(true); isHoveredRef.current = true; }}
+              onMouseLeave={() => { setIsHovered(false); isHoveredRef.current = false; }}
+            >
+              <div className="events-track" ref={trackRef}>
+                {loopEvents.map((event, i) => (
+                  <div className="event-card" key={i} id={`event-card-${i}`}>
+                  <div className="event-card-image">
+                    <img src={event.image} alt={event.title} />
+                    <span className="event-card-date">{event.date}</span>
                   </div>
-                </div>
+                  <div className="event-card-body">
+                    <h3>{event.title}</h3>
+                    <p>{event.desc}</p>
+                    <div className="event-card-meta">
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z" /></svg>
+                        {event.time}
+                      </span>
+                      <span>
+                        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z" /></svg>
+                        {event.location}
+                      </span>
+                    </div>
+                  </div>
+                  </div>
+                ))}
               </div>
-            ))}
+            </div>
           </div>
         </div>
       </section>
