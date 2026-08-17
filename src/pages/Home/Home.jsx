@@ -2,10 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Newsletter from '../../components/Newsletter/Newsletter';
 import churchHero from '../../assets/images/church-hero.png';
-import communityImg from '../../assets/images/P1.jpg';
-import worshipImg from '../../assets/images/Worship.jpg';
-import youthImg from '../../assets/images/Youth.jpg';
-import bibleImg from '../../assets/images/bible-study.png';
+import Creative_Class from '../../assets/images/Ministry/creative-class/creative-class.jpg';
+import Evening_Class from '../../assets/images/Ministry/evening-class/evening-class.jpg';
+import Saturday_Service from '../../assets/images/Ministry/saturday/saturday-service.jpg';
+import Soccer_Training from '../../assets/images/Ministry/soccer/soccer-training.jpg';
+import Sunday_Service from '../../assets/images/Ministry/sunday/sunday-service.jpg';
 import './Home.css';
 
 const Home = () => {
@@ -129,13 +130,6 @@ const Home = () => {
     },
     {
       icon: (
-        <svg viewBox="0 0 24 24"><path d="M21 3H3c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H3V5h18v14zM10 8l6 4-6 4z" /></svg>
-      ),
-      title: 'Watch Online',
-      desc: 'Stream our latest sermons',
-    },
-    {
-      icon: (
         <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
       ),
       title: 'Give',
@@ -152,28 +146,45 @@ const Home = () => {
 
   const events = [
     {
-      image: worshipImg,
-      date: 'Aug 15, 2026',
-      title: 'Summer Worship Night',
-      desc: 'Join us for an evening of praise, worship, and fellowship under the stars.',
-      time: '6:30 PM',
-      location: 'Main Sanctuary',
+      image: Evening_Class,
+      date: 'Monday - Wednesday',
+      title: 'Evening Class',
+      desc: 'English and Computer classes for adults, helping our community grow in knowledge and skills.',
+      time: '6:30 PM - 8:00 PM',
+      location: 'FFCC Church',
     },
     {
-      image: communityImg,
-      date: 'Aug 22, 2026',
-      title: 'Community Outreach Day',
-      desc: 'Serve our neighbors through various community service projects across the city.',
-      time: '9:00 AM',
-      location: 'Fellowship Hall',
+      image: Creative_Class,
+      date: 'Thursday',
+      title: 'Creative Class',
+      desc: 'Class for student have fun day and learn new skills in arts, crafts, and more.',
+      time: '6:30 PM - 8:00 PM',
+      location: 'Hall-FFCC Church',
     },
     {
-      image: youthImg,
-      date: 'Sep 5, 2026',
-      title: 'Youth Fall Retreat',
-      desc: 'A weekend of fun, faith, and friendship for students in grades 6-12.',
-      time: '5:00 PM',
-      location: 'Camp Grace',
+      image: Soccer_Training,
+      date: 'Friday',
+      title: 'Soccer Training',
+      desc: 'Youth soccer training for focusing on teamwork, discipline, and physical fitness.',
+      time: '6:00 PM - 8:00 PM',
+      location: 'Condo Sensok',
+    },
+    {
+      image: Saturday_Service,
+      date: 'Saturday',
+      title: 'Youth Service',
+      desc: 'Youth service for spiritual growth, fellowship, and community engagement.',
+      time: '6:00 PM - 8:00 PM',
+      location: 'Hall-FFCC Church',
+    },
+    {
+      image: Sunday_Service,
+      date: 'Sunday',
+      title: 'Church Service',
+      desc: 'Join us for our weekly church service, where we come together to worship, learn, and grow in faith.',
+      time: '9:00 AM - 11:00 AM',
+      location: 'Hall-FFCC Church',
+
     },
   ];
 
@@ -264,7 +275,7 @@ const Home = () => {
           <div className="events-header">
             <div>
               <span className="section-label">What's Happening</span>
-              <h2 className="section-title">UPCOMING EVENTS</h2>
+              <h2 className="section-title">DAILY EVENTS</h2>
             </div>
             <Link to="/ministries" className="btn btn-secondary" id="view-all-events">
               View All Events

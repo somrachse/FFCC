@@ -354,21 +354,13 @@ p {
 }
 
 /* Scrollbar */
-::-webkit-scrollbar {
-  width: 8px;
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* legacy Edge/IE */
 }
 
-::-webkit-scrollbar-track {
-  background: var(--color-cream);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--color-olive-light);
-  border-radius: var(--radius-sm);
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-olive-dark);
+html::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Edge */
 }
 
 /* Selection */

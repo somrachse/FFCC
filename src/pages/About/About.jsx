@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 import Newsletter from '../../components/Newsletter/Newsletter';
 import communityImg from '../../assets/images/community-gathering.png';
 import churchHero from '../../assets/images/church-hero.png';
@@ -48,6 +48,49 @@ const About = () => {
     { name: 'James Taylor', role: 'Men\'s Ministry', image: pastorMale, desc: 'Building strong men of faith and integrity.' },
     { name: 'Grace Rodriguez', role: 'Care Ministry', image: pastorFemale, desc: 'Supporting our church family in times of need.' },
   ];
+
+  // three copies of the leaders so there's always a buffer to slide into
+  // on either side before we silently reset back to the middle copy
+  const loopLeaders = [...leaders, ...leaders, ...leaders];
+  const teamTrackRef = useRef(null);
+  const [teamIndex, setTeamIndex] = useState(leaders.length);
+  const [teamOffset, setTeamOffset] = useState(0);
+  const [teamAnimate, setTeamAnimate] = useState(false);
+
+  const teamOffsetForIndex = (index) => {
+    const track = teamTrackRef.current;
+    if (!track) return 0;
+    const carousel = track.parentElement;
+    const card = track.querySelectorAll('.team-card')[index];
+    if (!card) return 0;
+    const containerCenter = carousel.clientWidth / 2;
+    return card.offsetLeft + card.offsetWidth / 2 - containerCenter;
+  };
+
+  const teamGoTo = (index, animate) => {
+    setTeamAnimate(animate);
+    setTeamIndex(index);
+    setTeamOffset(teamOffsetForIndex(index));
+  };
+
+  useLayoutEffect(() => {
+    teamGoTo(leaders.length, false);
+    const handleResize = () => teamGoTo(teamIndex, false);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // once the slide animation lands on a buffer copy, jump back to the
+  // matching card in the middle copy with no transition — invisible to
+  // the user since the two positions render identically
+  const handleTeamTransitionEnd = () => {
+    if (teamIndex < leaders.length) {
+      teamGoTo(teamIndex + leaders.length, false);
+    } else if (teamIndex >= leaders.length * 2) {
+      teamGoTo(teamIndex - leaders.length, false);
+    }
+  };
 
   return (
     <main id="about-page">
@@ -185,27 +228,76 @@ const About = () => {
         </div>
       </section>
 
-      {/* Leadership */}
+      {/* Pastors */}
       <section className="team-section section" id="leadership-section">
         <div className="container">
           <div className="team-header">
             <span className="section-label">Meet Our Team</span>
-            <h2 className="section-title">Our Leadership Team</h2>
+            <h2 className="section-title">Our Pastors</h2>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>
               Dedicated servants leading our church with integrity, passion, and a heart for God.
             </p>
           </div>
-          <div className="team-grid">
-            {leaders.map((leader, i) => (
-              <div className="team-card" key={i} id={`leader-card-${i}`}>
-                <div className="team-card-image">
-                  <img src={leader.image} alt={leader.name} />
-                </div>
-                <h4>{leader.name}</h4>
-                <span className="team-role">{leader.role}</span>
-                <p>{leader.desc}</p>
+          <div className="team-carousel-wrapper">
+            <button
+              type="button"
+              className="team-carousel-arrow team-carousel-arrow-left"
+              onClick={() => teamGoTo(teamIndex - 1, true)}
+              aria-label="Previous pastor"
+            >
+              <svg viewBox="0 0 24 24"><path d="M15.5 4.5L8 12l7.5 7.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
+
+            <div className="team-carousel">
+              <div
+                className="team-track"
+                ref={teamTrackRef}
+                onTransitionEnd={handleTeamTransitionEnd}
+                style={{
+                  transform: `translate3d(${-teamOffset}px, 0, 0)`,
+                  transition: teamAnimate ? 'transform 0.5s ease' : 'none',
+                }}
+              >
+                {loopLeaders.map((leader, i) => {
+                  const dist = Math.abs(i - teamIndex);
+                  const scale = Math.max(0.75, 1.25 - dist * 0.15);
+                  const blur = Math.min(0, dist * 2.2);
+                  const opacity = Math.max(0.5, 1 - dist * 0.15);
+                  return (
+                    <div
+                      className="team-card"
+                      key={i}
+                      id={`leader-card-${i}`}
+                      style={{
+                        transform: `scale(${scale})`,
+                        filter: blur > 0.05 ? `blur(${blur}px)` : 'none',
+                        opacity,
+                        zIndex: Math.round(100 - dist * 10),
+                        transition: teamAnimate
+                          ? 'transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease'
+                          : 'none',
+                      }}
+                    >
+                      <div className="team-card-image">
+                        <img src={leader.image} alt={leader.name} />
+                      </div>
+                      <h4>{leader.name}</h4>
+                      <span className="team-role">{leader.role}</span>
+                      <p>{leader.desc}</p>
+                    </div>
+                  );
+                })}
               </div>
-            ))}
+            </div>
+
+            <button
+              type="button"
+              className="team-carousel-arrow team-carousel-arrow-right"
+              onClick={() => teamGoTo(teamIndex + 1, true)}
+              aria-label="Next pastor"
+            >
+              <svg viewBox="0 0 24 24"><path d="M8.5 4.5L16 12l-7.5 7.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+            </button>
           </div>
         </div>
       </section>
