@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import Newsletter from '../../components/Newsletter/Newsletter';
 import communityImg from '../../assets/images/community-gathering.png';
 import churchHero from '../../assets/images/church-hero.png';
@@ -39,57 +39,97 @@ const About = () => {
     { name: 'Pastor John Smith', role: 'Senior Pastor', image: pastorMale, desc: 'Leading with wisdom and compassion for over 15 years.' },
     { name: 'Sarah Johnson', role: 'Associate Pastor', image: pastorFemale, desc: 'Passionate about community outreach and discipleship.' },
     { name: 'Michael Chen', role: 'Worship Director', image: pastorMale, desc: 'Creating spaces for authentic worship experiences.' },
-    { name: 'Emily Davis', role: 'Youth Minister', image: pastorFemale, desc: 'Dedicated to empowering the next generation.' },
   ];
 
   const mentors = [
     { name: 'Dr. Robert Miller', role: 'Council Elder', image: pastorMale, desc: 'Providing spiritual guidance and counsel.' },
     { name: 'Patricia Williams', role: 'Women\'s Ministry', image: pastorFemale, desc: 'Empowering women through faith and fellowship.' },
     { name: 'James Taylor', role: 'Men\'s Ministry', image: pastorMale, desc: 'Building strong men of faith and integrity.' },
-    { name: 'Grace Rodriguez', role: 'Care Ministry', image: pastorFemale, desc: 'Supporting our church family in times of need.' },
+    { name: 'Nana', role: 'Care Ministry', image: pastorFemale, desc: 'Supporting our church family in times of need.' },
+    { name: 'Franco', role: 'Care Ministry', image: pastorFemale, desc: 'Supporting our church family in times of need.' },
+    { name: 'Alice', role: 'Care Ministry', image: pastorFemale, desc: 'Supporting our church family in times of need.' },
+    { name: 'Dragon', role: 'Care Ministry', image: pastorFemale, desc: 'Supporting our church family in times of need.' },
+
   ];
 
-  // three copies of the leaders so there's always a buffer to slide into
-  // on either side before we silently reset back to the middle copy
-  const loopLeaders = [...leaders, ...leaders, ...leaders];
-  const teamTrackRef = useRef(null);
-  const [teamIndex, setTeamIndex] = useState(leaders.length);
-  const [teamOffset, setTeamOffset] = useState(0);
-  const [teamAnimate, setTeamAnimate] = useState(false);
+  // three copies act as scroll buffer on either side, so there's always
+  // more strip to scroll into before silently snapping back to the middle
+  // copy — the loop never visibly runs out
+  const loopMentors = [...mentors, ...mentors, ...mentors];
+  const mentorScrollRef = useRef(null);
+  const [mentorCenterIndex, setMentorCenterIndex] = useState(mentors.length);
 
-  const teamOffsetForIndex = (index) => {
-    const track = teamTrackRef.current;
-    if (!track) return 0;
-    const carousel = track.parentElement;
-    const card = track.querySelectorAll('.team-card')[index];
-    if (!card) return 0;
-    const containerCenter = carousel.clientWidth / 2;
-    return card.offsetLeft + card.offsetWidth / 2 - containerCenter;
+  const getMentorSlides = () => mentorScrollRef.current?.querySelectorAll('.mentor-slide') ?? [];
+
+  const findCenterIndex = (container, slides) => {
+    const containerCenter = container.getBoundingClientRect().left + container.clientWidth / 2;
+    let closestIndex = 0;
+    let closestDist = Infinity;
+    slides.forEach((slide, i) => {
+      const rect = slide.getBoundingClientRect();
+      const dist = Math.abs(rect.left + rect.width / 2 - containerCenter);
+      if (dist < closestDist) {
+        closestDist = dist;
+        closestIndex = i;
+      }
+    });
+    return closestIndex;
   };
 
-  const teamGoTo = (index, animate) => {
-    setTeamAnimate(animate);
-    setTeamIndex(index);
-    setTeamOffset(teamOffsetForIndex(index));
-  };
-
+  // jump straight to the middle copy before the first paint so there's no
+  // flash of the buffer copy at the very start of the strip
   useLayoutEffect(() => {
-    teamGoTo(leaders.length, false);
-    const handleResize = () => teamGoTo(teamIndex, false);
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    getMentorSlides()[mentors.length]?.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // once the slide animation lands on a buffer copy, jump back to the
-  // matching card in the middle copy with no transition — invisible to
-  // the user since the two positions render identically
-  const handleTeamTransitionEnd = () => {
-    if (teamIndex < leaders.length) {
-      teamGoTo(teamIndex + leaders.length, false);
-    } else if (teamIndex >= leaders.length * 2) {
-      teamGoTo(teamIndex - leaders.length, false);
-    }
+  // purely cosmetic: figures out which slide is nearest the scroll
+  // container's center so we can style it as focused. Native scroll-snap
+  // (in the CSS) is what actually does the centering/scrolling, so this
+  // can never fall out of sync with what the user sees on screen.
+  useEffect(() => {
+    const container = mentorScrollRef.current;
+    if (!container) return;
+
+    // once scrolling settles inside a buffer copy, silently shift by exactly
+    // one copy's width so we're back in the middle copy — same screen
+    // position, different (identical-looking) DOM nodes, so it's invisible
+    const recenterIfNeeded = () => {
+      const slides = getMentorSlides();
+      const first = slides[0];
+      const middleStart = slides[mentors.length];
+      if (!first || !middleStart) return;
+      const setWidth = middleStart.getBoundingClientRect().left - first.getBoundingClientRect().left;
+      const idx = findCenterIndex(container, slides);
+      if (idx < mentors.length) {
+        container.scrollLeft += setWidth;
+      } else if (idx >= mentors.length * 2) {
+        container.scrollLeft -= setWidth;
+      }
+    };
+
+    let raf;
+    let idleTimer;
+    const onScroll = () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(() => setMentorCenterIndex(findCenterIndex(container, getMentorSlides())));
+      clearTimeout(idleTimer);
+      idleTimer = setTimeout(recenterIfNeeded, 120);
+    };
+
+    setMentorCenterIndex(findCenterIndex(container, getMentorSlides()));
+    container.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      cancelAnimationFrame(raf);
+      clearTimeout(idleTimer);
+      container.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+    };
+  }, []);
+
+  const scrollMentorTo = (i) => {
+    getMentorSlides()[i]?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
   };
 
   return (
@@ -238,66 +278,17 @@ const About = () => {
               Dedicated servants leading our church with integrity, passion, and a heart for God.
             </p>
           </div>
-          <div className="team-carousel-wrapper">
-            <button
-              type="button"
-              className="team-carousel-arrow team-carousel-arrow-left"
-              onClick={() => teamGoTo(teamIndex - 1, true)}
-              aria-label="Previous pastor"
-            >
-              <svg viewBox="0 0 24 24"><path d="M15.5 4.5L8 12l7.5 7.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </button>
-
-            <div className="team-carousel">
-              <div
-                className="team-track"
-                ref={teamTrackRef}
-                onTransitionEnd={handleTeamTransitionEnd}
-                style={{
-                  transform: `translate3d(${-teamOffset}px, 0, 0)`,
-                  transition: teamAnimate ? 'transform 0.5s ease' : 'none',
-                }}
-              >
-                {loopLeaders.map((leader, i) => {
-                  const dist = Math.abs(i - teamIndex);
-                  const scale = Math.max(0.75, 1.25 - dist * 0.15);
-                  const blur = Math.min(0, dist * 2.2);
-                  const opacity = Math.max(0.5, 1 - dist * 0.15);
-                  return (
-                    <div
-                      className="team-card"
-                      key={i}
-                      id={`leader-card-${i}`}
-                      style={{
-                        transform: `scale(${scale})`,
-                        filter: blur > 0.05 ? `blur(${blur}px)` : 'none',
-                        opacity,
-                        zIndex: Math.round(100 - dist * 10),
-                        transition: teamAnimate
-                          ? 'transform 0.5s ease, filter 0.5s ease, opacity 0.5s ease'
-                          : 'none',
-                      }}
-                    >
-                      <div className="team-card-image">
-                        <img src={leader.image} alt={leader.name} />
-                      </div>
-                      <h4>{leader.name}</h4>
-                      <span className="team-role">{leader.role}</span>
-                      <p>{leader.desc}</p>
-                    </div>
-                  );
-                })}
+          <div className="team-grid">
+            {leaders.map((leader, i) => (
+              <div className="team-card" key={i} id={`leader-card-${i}`}>
+                <div className="team-card-image">
+                  <img src={leader.image} alt={leader.name} />
+                </div>
+                <h4>{leader.name}</h4>
+                <span className="team-role">{leader.role}</span>
+                <p>{leader.desc}</p>
               </div>
-            </div>
-
-            <button
-              type="button"
-              className="team-carousel-arrow team-carousel-arrow-right"
-              onClick={() => teamGoTo(teamIndex + 1, true)}
-              aria-label="Next pastor"
-            >
-              <svg viewBox="0 0 24 24"><path d="M8.5 4.5L16 12l-7.5 7.5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
-            </button>
+            ))}
           </div>
         </div>
       </section>
@@ -312,9 +303,14 @@ const About = () => {
               Experienced leaders who guide, support, and inspire our congregation.
             </p>
           </div>
-          <div className="team-grid">
-            {mentors.map((mentor, i) => (
-              <div className="team-card" key={i} id={`mentor-card-${i}`}>
+          <div className="mentor-scroll" ref={mentorScrollRef}>
+            {loopMentors.map((mentor, i) => (
+              <div
+                className={`team-card mentor-slide${i === mentorCenterIndex ? ' mentor-slide-center' : ''}`}
+                key={i}
+                id={`mentor-card-${i}`}
+                onClick={() => scrollMentorTo(i)}
+              >
                 <div className="team-card-image">
                   <img src={mentor.image} alt={mentor.name} />
                 </div>

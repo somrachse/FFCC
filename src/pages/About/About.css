@@ -256,70 +256,10 @@
   gap: var(--space-xl);
 }
 
-.team-carousel-wrapper {
-  position: relative;
-}
-
-.team-carousel {
-  overflow-x: hidden;
-  overflow-y: visible;
-  padding: var(--space-4xl) var(--space-4xl);
-}
-
-.team-carousel-arrow {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 48px;
-  height: 48px;
-  border-radius: var(--radius-full);
-  background: var(--color-white);
-  border: 1px solid var(--color-border);
-  box-shadow: var(--shadow-md);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  z-index: 200;
-  transition: all var(--transition-base);
-}
-
-.team-carousel-arrow:hover {
-  background: var(--color-olive-dark);
-  border-color: var(--color-olive-dark);
-}
-
-.team-carousel-arrow svg {
-  width: 20px;
-  height: 20px;
-  color: var(--color-olive-dark);
-}
-
-.team-carousel-arrow:hover svg {
-  color: var(--color-white);
-}
-
-.team-carousel-arrow-left {
-  left: 0;
-}
-
-.team-carousel-arrow-right {
-  right: 0;
-}
-
-.team-track {
-  display: flex;
-  align-items: center;
-  gap: var(--space-4xl);
-  width: max-content;
-  will-change: transform;
-  backface-visibility: hidden;
-}
-
-.team-track .team-card {
-  min-width: 220px;
-  max-width: 220px;
-  will-change: transform, filter, opacity;
+#leadership-section .team-grid {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .team-card {
@@ -375,6 +315,44 @@
   margin-bottom: var(--space-2xl);
 }
 
+/* a native horizontally-scrolling, snapping filmstrip: the browser owns
+   centering/scrolling entirely (scroll-snap-align: center), so there's no
+   JS position math that can drift out of sync like the old carousel had */
+.mentor-scroll {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xl);
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: var(--space-xl) 0 var(--space-lg);
+  /* side padding equal to half a slide lets the first/last slide reach center */
+  padding-left: calc(50% - 110px);
+  padding-right: calc(50% - 110px);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.mentor-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.mentor-slide {
+  flex: 0 0 220px;
+  scroll-snap-align: center;
+  text-align: center;
+  cursor: pointer;
+  opacity: 1;
+  filter: blur(0px);
+  transform: scale(0.85);
+  transition: transform var(--transition-base), opacity var(--transition-base), filter var(--transition-base);
+}
+
+.mentor-slide-center {
+  opacity: 1;
+  filter: blur(0);
+  transform: scale(1.1);
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .foundation-grid,
@@ -387,13 +365,10 @@
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .team-grid {
+  .team-grid,
+  #leadership-section .team-grid {
     grid-template-columns: repeat(2, 1fr);
     gap: var(--space-2xl);
-  }
-
-  .team-carousel {
-    padding: var(--space-3xl) 4.5rem;
   }
 }
 
@@ -407,21 +382,8 @@
     grid-template-columns: 1fr;
   }
 
-  .team-grid {
+  .team-grid,
+  #leadership-section .team-grid {
     grid-template-columns: 1fr;
-  }
-
-  .team-carousel {
-    padding: var(--space-3xl) 3rem;
-  }
-
-  .team-carousel-arrow {
-    width: 36px;
-    height: 36px;
-  }
-
-  .team-carousel-arrow svg {
-    width: 16px;
-    height: 16px;
   }
 }
