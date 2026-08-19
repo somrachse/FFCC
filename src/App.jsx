@@ -8,12 +8,19 @@ import Ministries from './pages/Ministries/Ministries';
 import Blog from './pages/Blog/Blog';
 import Contact from './pages/Contact/Contact';
 
-/* Scroll to top on route change */
+/* Scroll to top on route change, or to the target section when the link includes a #hash */
 function ScrollToTop() {
-  const { pathname } = useLocation();
+  const { pathname, hash } = useLocation();
   useEffect(() => {
+    if (hash) {
+      const target = document.getElementById(hash.slice(1));
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        return;
+      }
+    }
     window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, hash]);
   return null;
 }
 

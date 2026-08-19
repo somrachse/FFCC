@@ -1,70 +1,70 @@
 import { useState } from 'react';
 import Newsletter from '../../components/Newsletter/Newsletter';
-import churchImg from '../../assets/images/church-hero.png';
-import communityImg from '../../assets/images/community-gathering.png';
-import worshipImg from '../../assets/images/worship-event.png';
-import bibleImg from '../../assets/images/bible-study.png';
-import youthImg from '../../assets/images/youth-ministry.png';
-import pastorMale from '../../assets/images/pastor-male.png';
+import churchImg from '../../assets/images/church-hero.jpg';
+import communityImg from '../../assets/images/community-gathering.jpg';
+import worshipImg from '../../assets/images/worship-event.jpg';
+import bibleImg from '../../assets/images/bible-study.jpg';
+import youthImg from '../../assets/images/youth-ministry.jpg';
+import pastorMale from '../../assets/images/pastor-male.jpg';
 import './Blog.css';
 
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState('All');
 
-  const categories = ['All', 'Sermons', 'Devotionals', 'Testimony', 'Community', 'Youth'];
+  const categories = ['All', 'Faith & Testimony', 'Church Life', 'Children & Youth', 'Education & Students', 'Community Care'];
 
   const blogPosts = [
     {
       image: churchImg,
-      category: 'Sermons',
+      category: 'Church Life',
       title: 'Finding Peace in the Storm',
       excerpt: 'Discover how to find God\'s peace in the midst of life\'s greatest challenges and uncertainties.',
-      author: 'Pastor John Smith',
+      author: 'Phillip',
       date: 'Jul 18, 2026',
       readTime: '5 min read',
     },
     {
       image: communityImg,
-      category: 'Community',
+      category: 'Community Care',
       title: 'The Power of Serving Together',
       excerpt: 'When we serve together as a church family, we experience the joy of community in its fullest form.',
-      author: 'Sarah Johnson',
+      author: 'Lean Chanreaksmey ("Smile")',
       date: 'Jul 15, 2026',
       readTime: '4 min read',
     },
     {
       image: worshipImg,
-      category: 'Devotionals',
+      category: 'Faith & Testimony',
       title: 'Morning Reflections: Psalm 23',
       excerpt: 'A deep dive into the beloved Psalm 23 and what it means for our daily walk with God.',
-      author: 'Michael Chen',
+      author: 'Phillip',
       date: 'Jul 12, 2026',
       readTime: '6 min read',
     },
     {
       image: youthImg,
-      category: 'Youth',
+      category: 'Children & Youth',
       title: 'Faith in the Next Generation',
       excerpt: 'How our youth ministry is equipping young people to be leaders in their schools and communities.',
-      author: 'Emily Davis',
+      author: 'Ol Sotheavin ("Vin")',
       date: 'Jul 8, 2026',
       readTime: '4 min read',
     },
     {
       image: bibleImg,
-      category: 'Testimony',
+      category: 'Faith & Testimony',
       title: 'From Brokenness to Wholeness',
-      excerpt: 'A powerful testimony of transformation and redemption through the grace of God.',
-      author: 'Grace Rodriguez',
+      excerpt: 'A story of transformation and redemption through the grace of God, shared by a member of the FFCC family.',
+      author: 'FFCC Church Family',
       date: 'Jul 5, 2026',
       readTime: '7 min read',
     },
     {
-      image: churchImg,
-      category: 'Sermons',
-      title: 'The Heart of Worship',
-      excerpt: 'Understanding what it truly means to worship God in spirit and in truth every day.',
-      author: 'Pastor John Smith',
+      image: bibleImg,
+      category: 'Education & Students',
+      title: 'Learning That Opens Doors',
+      excerpt: 'How FFCC\'s Education Ministry helps students grow in confidence, responsibility, and future opportunity.',
+      author: 'Ouch Sreyroth ("Elsie")',
       date: 'Jul 1, 2026',
       readTime: '5 min read',
     },
@@ -79,10 +79,12 @@ const Blog = () => {
       {/* Hero */}
       <section className="blog-hero" id="blog-hero">
         <div className="container">
-          <span className="section-label">Our Blog</span>
-          <h1>Stories of Faith & Grace</h1>
+          <span className="section-label">Stories From FFCC</span>
+          <h1>God at Work in Everyday Lives</h1>
           <p>
-            Sermons, devotionals, testimonies, and reflections from our church community.
+            Some of the most meaningful parts of ministry cannot be measured only by
+            numbers. They are found in people — glimpses of what God is doing through
+            the everyday life of FFCC.
           </p>
         </div>
       </section>
@@ -95,19 +97,19 @@ const Blog = () => {
               <img src={bibleImg} alt="Featured post" />
             </div>
             <div className="featured-card-body">
-              <span className="featured-card-category">Featured Sermon</span>
+              <span className="featured-card-category">Featured Story</span>
               <h2>Walking in Grace: The Path of Forgiveness</h2>
               <p>
-                Explore the transformative power of forgiveness and how God's grace 
-                enables us to walk in freedom, releasing the burdens of the past 
+                Explore the transformative power of forgiveness and how God's grace
+                enables us to walk in freedom, releasing the burdens of the past
                 and embracing a future filled with hope.
               </p>
               <div className="featured-card-meta">
                 <div className="author">
                   <div className="author-avatar">
-                    <img src={pastorMale} alt="Pastor" />
+                    <img src={pastorMale} alt="Phillip" />
                   </div>
-                  <span>Pastor John Smith</span>
+                  <span>Phillip</span>
                 </div>
                 <span>Jul 20, 2026</span>
                 <span>8 min read</span>
@@ -128,7 +130,7 @@ const Blog = () => {
                 key={cat}
                 className={`category-btn ${activeCategory === cat ? 'active' : ''}`}
                 onClick={() => setActiveCategory(cat)}
-                id={`category-${cat.toLowerCase()}`}
+                id={`category-${cat.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
               >
                 {cat}
               </button>

@@ -29,10 +29,11 @@ const Contact = () => {
       <section className="contact-hero" id="contact-hero">
         <div className="container">
           <span className="section-label">Reach Out</span>
-          <h1>Get in Touch</h1>
+          <h1>We Would Love to Hear From You</h1>
           <p>
-            We'd love to hear from you. Whether you have a question, prayer request, 
-            or just want to say hello — reach out anytime.
+            Have a question about FFCC, one of our ministries, visiting the church,
+            prayer, or getting involved? Send us a message and our team will do our
+            best to help.
           </p>
         </div>
       </section>
@@ -51,7 +52,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4>Address</h4>
-                    <p>123 Faith Avenue<br/>Grace City, GC 12345</p>
+                    <p>Phnom Penh, Cambodia<br/>(Full street address coming soon)</p>
                   </div>
                 </div>
                 <div className="contact-info-item">
@@ -60,7 +61,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4>Phone</h4>
-                    <p>(555) 123-4567</p>
+                    <p>Coming soon</p>
                   </div>
                 </div>
                 <div className="contact-info-item">
@@ -69,7 +70,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4>Email</h4>
-                    <p>info@ffcc-church.org</p>
+                    <p>info@ffcccambodia.com</p>
                   </div>
                 </div>
               </div>
@@ -82,20 +83,20 @@ const Contact = () => {
                     <span>9:00 AM — 11:00 AM</span>
                   </div>
                   <div className="service-hours-item">
-                    <span>Sunday School</span>
-                    <span>10:30 AM — 11:30 AM</span>
+                    <span>Education Ministry (Mon–Wed)</span>
+                    <span>6:30 PM — 8:00 PM</span>
                   </div>
                   <div className="service-hours-item">
-                    <span>Wednesday Bible Study</span>
-                    <span>7:00 PM — 8:30 PM</span>
+                    <span>Creative Class (Thursday)</span>
+                    <span>6:30 PM — 8:00 PM</span>
                   </div>
                   <div className="service-hours-item">
-                    <span>Friday Youth Group</span>
-                    <span>6:30 PM — 8:30 PM</span>
+                    <span>Soccer Ministry (Friday)</span>
+                    <span>6:00 PM — 8:00 PM</span>
                   </div>
                   <div className="service-hours-item">
-                    <span>Office Hours</span>
-                    <span>Mon-Fri 9AM — 5PM</span>
+                    <span>Youth Service (Saturday)</span>
+                    <span>6:00 PM — 8:00 PM</span>
                   </div>
                 </div>
               </div>
@@ -152,7 +153,7 @@ const Contact = () => {
                       name="phone"
                       value={formData.phone}
                       onChange={handleChange}
-                      placeholder="(555) 000-0000"
+                      placeholder="012 345 678"
                     />
                   </div>
                 </div>
@@ -204,7 +205,7 @@ const Contact = () => {
             <div className="map-placeholder">
               <div className="map-pin">
                 <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/></svg>
-                <p>Faith Family Community Church</p>
+                <p>Faithful Family of Christ Church Cambodia</p>
               </div>
             </div>
           </div>
@@ -214,22 +215,24 @@ const Contact = () => {
       {/* Visit Us */}
       <section className="visit-section" id="visit-section">
         <div className="container">
-          <h3>Visit Us This Sunday</h3>
+          <h3>You're Welcome Here</h3>
           <p>
-            Experience our welcoming community firsthand. We can't wait to meet you!
+            You do not need to know all the songs, understand everything about
+            Christianity, or have your life completely together before coming.
+            Simply come — we would be glad to welcome you.
           </p>
           <div className="visit-times">
             <div className="visit-time-item">
-              <div className="day">Sunday</div>
+              <div className="day">Sunday Worship</div>
               <div className="time">9:00 AM</div>
             </div>
             <div className="visit-time-item">
-              <div className="day">Wednesday</div>
-              <div className="time">7:00 PM</div>
+              <div className="day">Youth Service (Sat)</div>
+              <div className="time">6:00 PM</div>
             </div>
             <div className="visit-time-item">
-              <div className="day">Friday</div>
-              <div className="time">6:30 PM</div>
+              <div className="day">Soccer Ministry (Fri)</div>
+              <div className="time">6:00 PM</div>
             </div>
           </div>
           <Link to="/about" className="btn btn-white btn-lg" id="plan-visit-btn">

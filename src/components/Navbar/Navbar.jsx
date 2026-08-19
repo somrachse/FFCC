@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import logoWhite from '../../assets/images/FFCC_White.PNG';
-import logoBlack from '../../assets/images/FFCC_Black.PNG';
 import './Navbar.css';
+
+const logoWhite = 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/FFCC_White.PNG';
+const logoBlack = 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/FFCC_Black.PNG';
 
 const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);

@@ -1,12 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Newsletter from '../../components/Newsletter/Newsletter';
-import churchHero from '../../assets/images/church-hero.png';
-import Creative_Class from '../../assets/images/Ministry/creative-class/creative-class.jpg';
-import Evening_Class from '../../assets/images/Ministry/evening-class/evening-class.jpg';
-import Saturday_Service from '../../assets/images/Ministry/saturday/saturday-service.jpg';
-import Soccer_Training from '../../assets/images/Ministry/soccer/soccer-training.jpg';
-import Sunday_Service from '../../assets/images/Ministry/sunday/sunday-service.jpg';
 import './Home.css';
 
 const Home = () => {
@@ -132,8 +126,8 @@ const Home = () => {
       icon: (
         <svg viewBox="0 0 24 24"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
       ),
-      title: 'Give',
-      desc: 'Support our mission',
+      title: 'Serve With Us',
+      desc: 'Discover ways to get involved',
     },
     {
       icon: (
@@ -146,42 +140,42 @@ const Home = () => {
 
   const events = [
     {
-      image: Evening_Class,
+      image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/evening-class/evening-class.jpg',
       date: 'Monday - Wednesday',
       title: 'Evening Class',
-      desc: 'English and Computer classes for adults, helping our community grow in knowledge and skills.',
+      desc: 'Helping children and young people grow through English, computer learning, practical education, and mentoring.',
       time: '6:30 PM - 8:00 PM',
       location: 'FFCC Church',
     },
     {
-      image: Creative_Class,
+      image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/creative-class/creative-class.jpg',
       date: 'Thursday',
       title: 'Creative Class',
-      desc: 'Class for student have fun day and learn new skills in arts, crafts, and more.',
+      desc: 'A creative learning and discipleship space where young people build practical skills, confidence, and teamwork.',
       time: '6:30 PM - 8:00 PM',
       location: 'Hall-FFCC Church',
     },
     {
-      image: Soccer_Training,
+      image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/soccer/soccer-training.jpg',
       date: 'Friday',
       title: 'Soccer Training',
-      desc: 'Youth soccer training for focusing on teamwork, discipline, and physical fitness.',
+      desc: 'Using football as a doorway for relationship, healthy community, teamwork, discipline, and discipleship.',
       time: '6:00 PM - 8:00 PM',
       location: 'Condo Sensok',
     },
     {
-      image: Saturday_Service,
+      image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/saturday/saturday-service.jpg',
       date: 'Saturday',
       title: 'Youth Service',
-      desc: 'Youth service for spiritual growth, fellowship, and community engagement.',
+      desc: 'A space for teenagers and young adults to worship, learn Scripture, build healthy friendships, and grow in faith.',
       time: '6:00 PM - 8:00 PM',
       location: 'Hall-FFCC Church',
     },
     {
-      image: Sunday_Service,
+      image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/sunday/sunday-service.jpg',
       date: 'Sunday',
       title: 'Church Service',
-      desc: 'Join us for our weekly church service, where we come together to worship, learn, and grow in faith.',
+      desc: 'Gather with the FFCC church family for worship, prayer, biblical preaching, and fellowship centered on Jesus Christ.',
       time: '9:00 AM - 11:00 AM',
       location: 'Hall-FFCC Church',
 
@@ -196,21 +190,23 @@ const Home = () => {
       {/* Hero */}
       <section className="home-hero" id="home-hero">
         <div className="home-hero-bg">
-          <img src={churchHero} alt="Church interior with golden sunlight" />
+          <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Worship.jpg'} alt="Church interior with golden sunlight" />
         </div>
         <div className="container">
           <div className="home-hero-content">
-            <h1>A PLACE TO BELONG, GROW IN FAITH, AND SERVE OUR CITY.</h1>
+            <h1>Discover Christ.
+              <br></br>Grow in Faith.
+              <br></br>Live as Family.</h1>
             <p>
-              Welcome to Faith Family Community Church — where everyone is family,
-              and every heart finds its home in God's love.
+              FFCC is a Christ-centered Cambodian church family in Phnom Penh helping people know Jesus,
+               grow as disciples, live in spiritual community, and serve others with faith and compassion
             </p>
             <div className="home-hero-actions">
-              <Link to="/about" className="btn btn-white btn-lg" id="hero-join-btn">
-                Join Us Sunday
+              <Link to="/contact" className="btn btn-white btn-lg" id="hero-join-btn">
+                Plan Your Visit
               </Link>
               <Link to="/ministries" className="btn btn-secondary btn-lg" id="hero-learn-btn" style={{ borderColor: '#fff', color: '#fff' }}>
-                Learn More
+                Explore Our Ministries
               </Link>
             </div>
           </div>
@@ -238,26 +234,26 @@ const Home = () => {
           <div className="rooted-grid">
             <div className="rooted-text">
               <span className="section-label">Our Story</span>
-              <h2>ROOTED IN TRADITION, GROWING IN GRACE</h2>
+              <h2>FROM A SMALL BASEMENT TO A GROWING CHURCH FAMILY</h2>
               <p>
-                For over two decades, Faith Family Community Church has been a beacon
-                of hope and love in our city. From humble beginnings to a thriving
-                community, our journey has been guided by God's unfailing grace and
-                the dedication of our members.
+                FFCC began in 2003 after thousands of families were relocated from the
+                Tonle Bassac area of Phnom Penh to a newly developing community on the
+                outskirts of the city.
               </p>
               <p>
-                We believe in building authentic relationships, fostering spiritual
-                growth, and making a lasting impact in our community through acts of
-                service and compassion.
+                With few basic services nearby and attending church elsewhere becoming
+                difficult, a small group began worshiping underneath our pastors' home
+                in a simple 5-by-7-meter basement — just people sitting together on the
+                floor, worshiping, praying, learning God's Word, and sharing life.
               </p>
-              <Link to="/about" className="btn btn-primary" id="rooted-learn-more">
-                Learn Our Story
+              <Link to="/about#foundation-section" className="btn btn-primary" id="rooted-learn-more">
+                Discover Our Story
               </Link>
             </div>
             <div className="rooted-media">
               <iframe
                 ref={iframeRef}
-                title="Faith Family Community Church video"
+                title="Faithful Family of Christ Church video"
                 src="https://www.youtube.com/embed/JgITOVkm7BA?enablejsapi=1&mute=1&rel=0&si=6RNw-xQt3zCxQ1vs&playsinline=1"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"

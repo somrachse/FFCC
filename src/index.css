@@ -149,7 +149,7 @@ p {
 
 @media (max-width: 768px) {
   .container {
-    padding: 0 var(--space-md);
+    padding: 5px var(--space-md);
   }
 }
 

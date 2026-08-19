@@ -36,6 +36,7 @@
 /* Foundation */
 .foundation-section {
   padding: var(--space-section) 0;
+  scroll-margin-top: calc(var(--nav-height) + var(--space-lg));
 }
 
 .foundation-grid {
@@ -53,6 +54,58 @@
 .foundation-text p {
   margin-bottom: var(--space-md);
   line-height: 1.8;
+}
+
+.story-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.story-more.expanded {
+  grid-template-rows: 1fr;
+}
+
+.story-more-inner {
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.story-more.expanded .story-more-inner {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+}
+
+.story-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-olive-dark);
+  cursor: pointer;
+}
+
+.story-toggle-btn:hover {
+  color: var(--color-olive-medium);
+}
+
+.story-toggle-btn svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  transition: transform var(--transition-base);
+}
+
+.story-toggle-btn svg.rotated {
+  transform: rotate(180deg);
 }
 
 .foundation-images {
@@ -267,8 +320,8 @@
 }
 
 .team-card-image {
-  width: 160px;
-  height: 160px;
+  width: 200px;
+  height: 200px;
   margin: 0 auto var(--space-md);
   border-radius: var(--radius-full);
   overflow: hidden;
@@ -282,8 +335,8 @@
 }
 
 .team-card-image img {
-  width: 100%;
-  height: 100%;
+  width: 120%;
+  height: 120%;
   object-fit: cover;
 }
 

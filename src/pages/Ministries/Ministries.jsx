@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom';
 import Newsletter from '../../components/Newsletter/Newsletter';
-import communityImg from '../../assets/images/community-gathering.png';
-import worshipImg from '../../assets/images/worship-event.png';
-import bibleImg from '../../assets/images/bible-study.png';
-import youthImg from '../../assets/images/youth-ministry.png';
-import churchImg from '../../assets/images/church-hero.png';
+import communityImg from '../../assets/images/community-gathering.jpg';
+import worshipImg from '../../assets/images/worship-event.jpg';
+import bibleImg from '../../assets/images/bible-study.jpg';
+import youthImg from '../../assets/images/youth-ministry.jpg';
+import churchImg from '../../assets/images/church-hero.jpg';
 import './Ministries.css';
 
 const Ministries = () => {
@@ -12,38 +12,38 @@ const Ministries = () => {
     {
       image: worshipImg,
       badge: 'Worship',
-      title: 'Worship Ministry',
-      desc: 'Experience God through music, praise, and creative arts. Our worship team leads the congregation in heartfelt worship every Sunday and at special events.',
+      title: 'Worship & Discipleship',
+      desc: 'Sunday worship, youth service, Bible teaching, prayer, Connect Groups, worship ministry, men\'s and women\'s fellowship, and spiritual formation.',
     },
     {
       image: youthImg,
-      badge: 'Youth',
-      title: 'Youth Ministry',
-      desc: 'Empowering the next generation through dynamic programs, mentorship, and community activities for students in grades 6-12.',
-    },
-    {
-      image: communityImg,
-      badge: 'Outreach',
-      title: 'Community Outreach',
-      desc: 'Making a difference in our city through food drives, neighborhood clean-ups, disaster relief, and partnerships with local organizations.',
+      badge: 'Children & Youth',
+      title: 'Children & Youth',
+      desc: 'Sunday School, Thursday Bible class, children\'s discipleship, youth ministry, camps, soccer, Special Love, and other next-generation ministries.',
     },
     {
       image: bibleImg,
-      badge: 'Discipleship',
-      title: 'Small Groups & Bible Study',
-      desc: 'Grow deeper in your faith through weekly small group gatherings, Bible studies, and discipleship programs for all ages.',
-    },
-    {
-      image: churchImg,
-      badge: 'Children',
-      title: 'Children\'s Ministry',
-      desc: 'A safe, fun, and nurturing environment where children learn about God\'s love through age-appropriate lessons, games, and activities.',
+      badge: 'Education',
+      title: 'Education & Student Development',
+      desc: 'English, computer learning, Creative Class, university student ministry, scholarship and sponsorship support, student tracking, and School Pack ministry.',
     },
     {
       image: communityImg,
-      badge: 'Care',
-      title: 'Care & Support Ministry',
-      desc: 'Providing pastoral care, counseling, hospital visits, and prayer support to those in need within our church family and community.',
+      badge: 'Creative & Media',
+      title: 'Creative & Media',
+      desc: 'Photography, videography, editing, content creation, media training, website and technology development, and creative communication.',
+    },
+    {
+      image: churchImg,
+      badge: 'Compassion',
+      title: 'Compassion & Community Care',
+      desc: 'Medical ministry, health education, feeding and welfare, vulnerable-family care, clean water and sanitation, emergency support, and practical acts of compassion.',
+    },
+    {
+      image: worshipImg,
+      badge: 'Mission',
+      title: 'Mission & Leadership',
+      desc: 'House churches, provincial mission, Bible distribution, outreach, baptisms, local church encouragement, staff devotion, volunteer formation, and leadership development.',
     },
   ];
 
@@ -52,10 +52,13 @@ const Ministries = () => {
       {/* Hero */}
       <section className="ministries-hero" id="ministries-hero">
         <div className="container">
-          <span className="section-label">Get Involved</span>
+          <span className="section-label">Life at FFCC</span>
           <h1>Our Ministries</h1>
           <p>
-            Discover the many ways you can connect, grow, and serve through our church ministries.
+            Ministry at FFCC is not built around activity for activity's sake. Each
+            ministry is an opportunity to help people know Christ, develop
+            spiritually, build healthy relationships, discover their gifts, carry
+            responsibility, and learn to serve others.
           </p>
           <div className="ministries-hero-grid">
             <div className="img-cell">
@@ -104,14 +107,15 @@ const Ministries = () => {
           <div className="support-inner">
             <div>
               <span className="section-label">Make a Difference</span>
-              <h3>Support Our Ministries</h3>
+              <h3>Everyone Has Something to Give</h3>
               <p>
-                Your generous giving helps us continue to serve our community 
-                and expand our outreach programs.
+                Church becomes stronger when people move from simply attending to
+                participating. You do not need to be a professional or have everything
+                figured out before you begin serving.
               </p>
             </div>
             <Link to="/contact" className="btn btn-primary btn-lg" id="support-give-btn">
-              Give Now
+              I Want to Serve
             </Link>
           </div>
         </div>
