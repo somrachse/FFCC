@@ -220,12 +220,6 @@
   color: var(--color-muted);
 }
 
-.blog-card-footer .read-time {
-  display: flex;
-  align-items: center;
-  gap: var(--space-xs);
-}
-
 /* Pagination */
 .pagination {
   display: flex;

@@ -171,7 +171,7 @@ const Home = () => {
       location: 'Hall-FFCC Church',
     },
     {
-      image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/sunday/sunday-service.jpg',
+      image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/Adult%20Community/sunday/sunday-service.jpg',
       date: 'Sunday',
       title: 'Church Service',
       desc: 'Gather with the FFCC church family for worship, prayer, biblical preaching, and fellowship centered on Jesus Christ.',

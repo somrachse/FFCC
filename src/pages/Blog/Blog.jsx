@@ -20,7 +20,6 @@ const Blog = () => {
       excerpt: 'Discover how to find God\'s peace in the midst of life\'s greatest challenges and uncertainties.',
       author: 'Phillip',
       date: 'Jul 18, 2026',
-      readTime: '5 min read',
     },
     {
       image: communityImg,
@@ -29,7 +28,6 @@ const Blog = () => {
       excerpt: 'When we serve together as a church family, we experience the joy of community in its fullest form.',
       author: 'Lean Chanreaksmey ("Smile")',
       date: 'Jul 15, 2026',
-      readTime: '4 min read',
     },
     {
       image: worshipImg,
@@ -37,8 +35,7 @@ const Blog = () => {
       title: 'Morning Reflections: Psalm 23',
       excerpt: 'A deep dive into the beloved Psalm 23 and what it means for our daily walk with God.',
       author: 'Phillip',
-      date: 'Jul 12, 2026',
-      readTime: '6 min read',
+      date: 'July 10, 2026'
     },
     {
       image: youthImg,
@@ -47,7 +44,6 @@ const Blog = () => {
       excerpt: 'How our youth ministry is equipping young people to be leaders in their schools and communities.',
       author: 'Ol Sotheavin ("Vin")',
       date: 'Jul 8, 2026',
-      readTime: '4 min read',
     },
     {
       image: bibleImg,
@@ -56,7 +52,6 @@ const Blog = () => {
       excerpt: 'A story of transformation and redemption through the grace of God, shared by a member of the FFCC family.',
       author: 'FFCC Church Family',
       date: 'Jul 5, 2026',
-      readTime: '7 min read',
     },
     {
       image: bibleImg,
@@ -65,7 +60,6 @@ const Blog = () => {
       excerpt: 'How FFCC\'s Education Ministry helps students grow in confidence, responsibility, and future opportunity.',
       author: 'Ouch Sreyroth ("Elsie")',
       date: 'Jul 1, 2026',
-      readTime: '5 min read',
     },
   ];
 
@@ -149,10 +143,6 @@ const Blog = () => {
                   <p>{post.excerpt}</p>
                   <div className="blog-card-footer">
                     <span>{post.date}</span>
-                    <span className="read-time">
-                      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>
-                      {post.readTime}
-                    </span>
                   </div>
                 </div>
               </article>
