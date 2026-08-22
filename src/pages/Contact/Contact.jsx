@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import Newsletter from '../../components/Newsletter/Newsletter';
 import './Contact.css';
 
 const Contact = () => {
@@ -240,9 +239,6 @@ const Contact = () => {
           </Link>
         </div>
       </section>
-
-      {/* Newsletter */}
-      <Newsletter />
     </main>
   );
 };

@@ -1,5 +1,4 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
-import Newsletter from '../../components/Newsletter/Newsletter';
 import bibleImg from '../../assets/images/bible-study.jpg';
 import pastorMale from '../../assets/images/pastor-male.jpg';
 import pastorFemale from '../../assets/images/pastor-female.jpg';
@@ -39,12 +38,12 @@ const About = () => {
   ];
 
   const mentors = [
-    { name: 'Chea Oudom', role: 'Education Ministry Leader', image: pastorFemale, desc: "Leads FFCC's Education Ministry and supports teachers across our learning programs." },
-    { name: 'Vong Pitou', role: 'Education Ministry Leader', image: pastorFemale, desc: "Leads FFCC's Education Ministry and supports teachers across our learning programs." },
-    { name: 'Na Pha', role: 'University Student & Technology Ministry', image: pastorFemale, desc: 'Walks alongside university students and serves in technology and web development.' },
-    { name: 'Lean Chanreaksmey', role: 'Media Ministry Leader', image: pastorMale, desc: "Guides FFCC's media ministry — video production, editing, and creative training." },
-    { name: 'Ester', role: 'Technology, Worship & Youth Ministry', image: pastorMale, desc: 'Serves through IT and web development, worship leadership, and soccer ministry.' },
-    { name: 'Sun Ros', role: 'Photography & Videography', image: pastorMale, desc: 'Documents church life through photography and videography across ministry activities.' },
+    { name: 'Chea Oudom', role: '', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Leader_Picture/B%20lip.jpg', desc: "" },
+    { name: 'Vong Pitou', role: '', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Leader_Picture/B%20Tou.jpg', desc: "" },
+    { name: 'Na Pha', role: '', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Leader_Picture/B%20Pha.jpg', desc: '' },
+    { name: 'Lean Chanreaksmey', role: '', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Leader_Picture/J%20smey.jpg', desc: "" },
+    { name: 'Horm Sreynich', role: '', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Leader_Picture/J%20Nich.jpg', desc: '' },
+    { name: 'Sun Ros', role: '', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Leader_Picture/B%20Nick.jpg', desc: '' },
   ];
 
 
@@ -102,13 +101,7 @@ const About = () => {
   // why fighting it is actively dangerous, not just visually jerky.
   const isClickScrollingRef = useRef(false);
 
-  // once scrolling settles inside a buffer copy, silently shift by exactly
-  // one copy's width so we're back in the middle copy — same screen
-  // position, different (identical-looking) DOM nodes, so it's invisible.
-  // Must also move the highlighted index by the same one-copy offset,
-  // otherwise the highlight is left pointing at the slide's old position,
-  // which just scrolled out of the visible copy entirely, leaving nothing
-  // on screen highlighted.
+
   const recenterIfNeeded = () => {
     const container = mentorScrollRef.current;
     if (!container) return;
@@ -119,11 +112,19 @@ const About = () => {
     const setWidth = middleStart.getBoundingClientRect().left - first.getBoundingClientRect().left;
     const idx = findCenterIndex(container, slides);
     if (idx < mentors.length) {
+      container.classList.add('mentor-scroll-no-anim');
       container.scrollLeft += setWidth;
       setMentorCenterIndex(idx + mentors.length);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        container.classList.remove('mentor-scroll-no-anim');
+      }));
     } else if (idx >= mentors.length * 2) {
+      container.classList.add('mentor-scroll-no-anim');
       container.scrollLeft -= setWidth;
       setMentorCenterIndex(idx - mentors.length);
+      requestAnimationFrame(() => requestAnimationFrame(() => {
+        container.classList.remove('mentor-scroll-no-anim');
+      }));
     }
   };
 
@@ -134,14 +135,7 @@ const About = () => {
     let raf;
     let idleTimer;
     const onScroll = () => {
-      // a click-triggered scroll recenters itself exactly once, after it
-      // settles (see scrollMentorTo) — this idle/per-frame path must stay
-      // completely out of its way in the meantime. Directly mutating
-      // scrollLeft here while container.scrollTo({behavior:'smooth'}) is
-      // still animating cancels that animation outright (the two are
-      // fighting over the same property), which is what made clicking a
-      // slide feel randomly broken — it wasn't jerky, it was being aborted
-      // mid-flight depending on exactly when this timer happened to fire.
+
       if (isClickScrollingRef.current) return;
 
       clearTimeout(idleTimer);
@@ -150,13 +144,6 @@ const About = () => {
       cancelAnimationFrame(raf);
       raf = requestAnimationFrame(() => {
         setMentorCenterIndex(findCenterIndex(container, getMentorSlides()));
-        // also recenter live, on every frame, not only once scrolling goes
-        // idle. There's only one buffer copy on each side of the middle —
-        // a fast fling covers more distance than the idle-only check can
-        // react to, so it could run past the buffer and hit the real end
-        // of the DOM before ever getting pulled back, which is where "last
-        // slide doesn't connect to first" was coming from. Checking every
-        // frame means it's always caught with a full copy to spare.
         recenterIfNeeded();
       });
     };
@@ -382,7 +369,7 @@ const About = () => {
             <span className="section-label">Sunday Preacher</span>
             <h2 className="section-title">Our Pastors</h2>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>
-              Leadership at FFCC is expressed through humility, faithfulness, integrity, and service.
+              
             </p>
           </div>
           <div className="team-grid">
@@ -407,7 +394,6 @@ const About = () => {
             <span className="section-label">Saturday Preacher</span>
             <h2 className="section-title">Our Leader </h2>
             <p className="section-subtitle" style={{ margin: '0 auto' }}>
-              Staff and volunteers serving across education, media, children's ministry, technology, and more.
             </p>
           </div>
           <div className="mentor-scroll" ref={mentorScrollRef}>
@@ -429,9 +415,6 @@ const About = () => {
           </div>
         </div>
       </section>
-
-      {/* Newsletter */}
-      <Newsletter />
     </main>
   );
 };

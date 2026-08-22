@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import Newsletter from '../../components/Newsletter/Newsletter';
 import communityImg from '../../assets/images/community-gathering.jpg';
 import worshipImg from '../../assets/images/worship-event.jpg';
 import bibleImg from '../../assets/images/bible-study.jpg';
@@ -120,9 +119,6 @@ const Ministries = () => {
           </div>
         </div>
       </section>
-
-      {/* Newsletter */}
-      <Newsletter />
     </main>
   );
 };

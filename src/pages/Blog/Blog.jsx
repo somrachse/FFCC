@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Newsletter from '../../components/Newsletter/Newsletter';
 import churchImg from '../../assets/images/church-hero.jpg';
 import communityImg from '../../assets/images/community-gathering.jpg';
 import worshipImg from '../../assets/images/worship-event.jpg';
@@ -174,9 +173,6 @@ const Blog = () => {
           </div>
         </div>
       </section>
-
-      {/* Newsletter */}
-      <Newsletter />
     </main>
   );
 };

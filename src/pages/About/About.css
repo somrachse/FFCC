@@ -406,6 +406,13 @@
   transform: scale(1.1);
 }
 
+/* applied for one frame during the silent buffer-copy recenter so the
+   scale swap between the outgoing and incoming (visually identical)
+   slide is instant instead of replaying the 0.3s grow/shrink transition */
+.mentor-scroll-no-anim .mentor-slide {
+  transition: none;
+}
+
 /* Responsive */
 @media (max-width: 1024px) {
   .foundation-grid,
