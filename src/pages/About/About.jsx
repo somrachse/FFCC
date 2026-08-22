@@ -1,7 +1,6 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import bibleImg from '../../assets/images/bible-study.jpg';
-import pastorMale from '../../assets/images/pastor-male.jpg';
-import pastorFemale from '../../assets/images/pastor-female.jpg';
+
 import './About.css';
 
 const About = () => {
@@ -190,7 +189,7 @@ const About = () => {
             Faithful Family of Christ Church Cambodia is a local Christian church in Phnom Penh committed to helping people know Jesus Christ, grow in faith, and learn to live as His disciples together.
           </p>
           <div className="about-hero-image">
-            <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/sunday/18-FFCC-MINISTRY-%20Sunday%20service.jpg'} alt="Community gathering" />
+            <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/Adult%20Community/sunday/18-FFCC-MINISTRY-%20Sunday%20service.jpg'} alt="Community gathering" />
           </div>
         </div>
       </section>
@@ -252,13 +251,13 @@ const About = () => {
             </div>
             <div className="foundation-images">
               <div className="img-wrapper">
-                <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/sunday/70-FFCC-MINISTRY-%20Sunday%20service.jpg'} alt="Community event" />
+                <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/Adult%20Community/sunday/70-FFCC-MINISTRY-%20Sunday%20service.jpg'} alt="Community event" />
               </div>
               <div className="img-wrapper">
-                <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/sunday/64-FFCC-MINISTRY-%20Sunday%20service.jpg'} alt="Worship service" />
+                <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/Adult%20Community/sunday/64-FFCC-MINISTRY-%20Sunday%20service.jpg'} alt="Worship service" />
               </div>
               <div className="img-wrapper">
-                <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/sunday/74-FFCC-MINISTRY-%20Sunday%20service%20(1).jpg'} alt="Youth activities" />
+                <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/Adult%20Community/sunday/74-FFCC-MINISTRY-%20Sunday%20service%20(1).jpg'} alt="Youth activities" />
               </div>
             </div>
           </div>
