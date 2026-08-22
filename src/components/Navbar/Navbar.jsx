@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { ministries } from '../../data/ministries';
 import './Navbar.css';
 
 const logoWhite = 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/FFCC_White.PNG';
@@ -31,18 +32,6 @@ const Navbar = () => {
   }, [mobileOpen]);
 
   const navClass = `navbar ${isHome && !scrolled && !mobileOpen ? 'transparent' : 'scrolled'}`;
-
-  const ministries = [
-    'Adult',
-    'Youth Outreach',
-    'Children ministries',
-    'Comunication Development and Outreach',
-    'Education Ministry',
-    'Business for Mision',
-    'Next Gen care',
-    'Next Gen Care & Sponsorship & Scholarship',
-    'Serving Team'
-  ];
 
   const links = [
     { to: '/', label: 'Home' },
@@ -76,9 +65,9 @@ const Navbar = () => {
                 </Link>
                 <div className="dropdown-menu">
                   {ministries.map((item) => (
-                    <div key={item} className="dropdown-item">
-                      {item}
-                    </div>
+                    <Link key={item.slug} to={`/ministries/${item.slug}`} className="dropdown-item">
+                      {item.title}
+                    </Link>
                   ))}
                 </div>
               </div>

@@ -5,6 +5,7 @@ import Footer from './components/Footer/Footer';
 import Home from './pages/Home/Home';
 import About from './pages/About/About';
 import Ministries from './pages/Ministries/Ministries';
+import MinistryDetail from './pages/MinistryDetail/MinistryDetail';
 import Blog from './pages/Blog/Blog';
 import Contact from './pages/Contact/Contact';
 
@@ -33,6 +34,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/ministries" element={<Ministries />} />
+        <Route path="/ministries/:slug" element={<MinistryDetail />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
       </Routes>

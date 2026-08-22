@@ -32,9 +32,9 @@ const About = () => {
   ];
 
   const leaders = [
-    { name: 'Om Theoun', role: 'Pastor', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ps.%20Om%20Thoeun.jpg', desc: 'Pastor of the church, providing spiritual leadership and guidance to the congregation.' },
-    { name: 'Keo Sokcheat', role: 'Ministry Leader & Senior Administrator', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ps.%20Socheat.jpg', desc: 'Leads Special Love Children Center and coordinates ministry administration and major projects.' },
-    { name: 'So Vuthy', role: 'Ministry Leader & Creative Class Coordinator', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ps.%20So%20Vuthy.jpg', desc: 'Coordinates Creative Class and the Children Sponsorship Program alongside worship ministry.' },
+    { name: 'Om Theoun', role: 'Pastor', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ps.%20Om%20Thoeun.jpg', desc: '' },
+    { name: 'Keo Sokcheat', role: 'Paster', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ps.%20Socheat.jpg', desc: '' },
+    { name: 'So Vuthy', role: 'Paster', image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ps.%20So%20Vuthy.jpg', desc: '' },
   ];
 
   const mentors = [
@@ -68,14 +68,6 @@ const About = () => {
     return closestIndex;
   };
 
-  // offsetLeft is relative to the nearest *positioned* ancestor, which here
-  // is nothing closer than <body> — so it does not reliably measure distance
-  // from this container's own scroll origin, and using it to compute a
-  // "centered" scrollLeft can land on a value CSS scroll-snap disagrees
-  // with (it snaps in viewport space). getBoundingClientRect is always
-  // viewport-relative regardless of positioning context, so the delta
-  // between rects is exact and matches what scroll-snap-align: center
-  // would choose.
   const centeredScrollLeft = (container, target) => {
     const containerRect = container.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
@@ -83,10 +75,7 @@ const About = () => {
     return container.scrollLeft + delta;
   };
 
-  // jump straight to the middle copy before the first paint so there's no
-  // flash of the buffer copy at the very start of the strip. Set scrollLeft
-  // directly (not scrollIntoView) so this can never drag the page's own
-  // vertical scroll along with it when the strip starts off-screen.
+
   useLayoutEffect(() => {
     const container = mentorScrollRef.current;
     const target = getMentorSlides()[mentors.length];
@@ -96,9 +85,7 @@ const About = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // while a click-triggered scroll is animating, nothing below may touch
-  // scrollLeft or re-render the highlighted slide — see scrollMentorTo for
-  // why fighting it is actively dangerous, not just visually jerky.
+
   const isClickScrollingRef = useRef(false);
 
 
@@ -351,9 +338,9 @@ const About = () => {
                 <li>The Holy Spirit empowers believers for godly living</li>
                 <li>The Church is the body of Christ on earth</li>
               </ul>
-              <a href="#" className="btn btn-primary" id="statement-of-faith-btn">
+              {/* <a href="#" className="btn btn-primary" id="statement-of-faith-btn">
                 Full Statement of Faith
-              </a>
+              </a> */}
             </div>
             <div className="believe-image">
               <img src={bibleImg} alt="Open Bible" />

@@ -1,51 +1,8 @@
 import { Link } from 'react-router-dom';
-import communityImg from '../../assets/images/community-gathering.jpg';
-import worshipImg from '../../assets/images/worship-event.jpg';
-import bibleImg from '../../assets/images/bible-study.jpg';
-import youthImg from '../../assets/images/youth-ministry.jpg';
-import churchImg from '../../assets/images/church-hero.jpg';
+import { ministries } from '../../data/ministries';
 import './Ministries.css';
 
 const Ministries = () => {
-  const ministries = [
-    {
-      image: worshipImg,
-      badge: 'Worship',
-      title: 'Worship & Discipleship',
-      desc: 'Sunday worship, youth service, Bible teaching, prayer, Connect Groups, worship ministry, men\'s and women\'s fellowship, and spiritual formation.',
-    },
-    {
-      image: youthImg,
-      badge: 'Children & Youth',
-      title: 'Children & Youth',
-      desc: 'Sunday School, Thursday Bible class, children\'s discipleship, youth ministry, camps, soccer, Special Love, and other next-generation ministries.',
-    },
-    {
-      image: bibleImg,
-      badge: 'Education',
-      title: 'Education & Student Development',
-      desc: 'English, computer learning, Creative Class, university student ministry, scholarship and sponsorship support, student tracking, and School Pack ministry.',
-    },
-    {
-      image: communityImg,
-      badge: 'Creative & Media',
-      title: 'Creative & Media',
-      desc: 'Photography, videography, editing, content creation, media training, website and technology development, and creative communication.',
-    },
-    {
-      image: churchImg,
-      badge: 'Compassion',
-      title: 'Compassion & Community Care',
-      desc: 'Medical ministry, health education, feeding and welfare, vulnerable-family care, clean water and sanitation, emergency support, and practical acts of compassion.',
-    },
-    {
-      image: worshipImg,
-      badge: 'Mission',
-      title: 'Mission & Leadership',
-      desc: 'House churches, provincial mission, Bible distribution, outreach, baptisms, local church encouragement, staff devotion, volunteer formation, and leadership development.',
-    },
-  ];
-
   return (
     <main id="ministries-page">
       {/* Hero */}
@@ -61,16 +18,19 @@ const Ministries = () => {
           </p>
           <div className="ministries-hero-grid">
             <div className="img-cell">
-              <img src={worshipImg} alt="Worship ministry" />
+              <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/General/47-Sunday%20Service%2021-06-2026.jpg'} alt="Worship ministry" />
             </div>
             <div className="img-cell">
-              <img src={communityImg} alt="Community" />
+              <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/General/48-Sunday%20Service%2021-06-2026.jpg'} alt="Community" />
             </div>
             <div className="img-cell">
-              <img src={youthImg} alt="Youth" />
+              <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/General/27-Sunday%20Service%2021-06-2026.jpg'} alt="Youth" />
             </div>
             <div className="img-cell">
-              <img src={bibleImg} alt="Bible study" />
+              <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/General/8-Sunday%20Service%2015-03-2026.jpg'} alt="Bible study" />
+            </div>
+            <div className="img-cell">
+              <img src={'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Ministry/General/5-Sunday%20Service%2008-03-2026%20(3).jpg'} alt="Bible study" />
             </div>
           </div>
         </div>
@@ -81,7 +41,7 @@ const Ministries = () => {
         <div className="container">
           <div className="ministries-grid">
             {ministries.map((ministry, i) => (
-              <div className="ministry-card" key={i} id={`ministry-card-${i}`}>
+              <div className="ministry-card" key={ministry.slug} id={`ministry-card-${i}`}>
                 <div className="ministry-card-image">
                   <img src={ministry.image} alt={ministry.title} />
                   <span className="ministry-card-badge">{ministry.badge}</span>
@@ -89,10 +49,10 @@ const Ministries = () => {
                 <div className="ministry-card-body">
                   <h3>{ministry.title}</h3>
                   <p>{ministry.desc}</p>
-                  <a href="#" className="ministry-card-link">
+                  <Link to={`/ministries/${ministry.slug}`} className="ministry-card-link">
                     Learn More
                     <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-                  </a>
+                  </Link>
                 </div>
               </div>
             ))}
