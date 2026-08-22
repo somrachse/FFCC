@@ -1,5 +1,5 @@
 import { Link, Navigate, useParams } from 'react-router-dom';
-import { getMinistryBySlug, ministries } from '../../data/ministries';
+import { getMinistryBySlug, ministries } from '../../ministries';
 import './MinistryDetail.css';
 
 const MinistryDetail = () => {

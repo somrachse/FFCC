@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ministries } from '../../data/ministries';
+import { ministries } from '../../ministries';
 import './Navbar.css';
 
 const logoWhite = 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/FFCC_White.PNG';

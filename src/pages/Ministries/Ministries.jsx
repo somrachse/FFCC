@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ministries } from '../../data/ministries';
+import { ministries } from '../../ministries';
 import './Ministries.css';
 
 const Ministries = () => {
