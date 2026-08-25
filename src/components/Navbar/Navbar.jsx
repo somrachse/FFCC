@@ -85,7 +85,7 @@ const Navbar = () => {
         </div>
 
         <div className="navbar-cta">
-          <Link to="/contact" className="btn-give" id="nav-give-btn">Give Now</Link>
+          <Link to="/give" className="btn-give" id="nav-give-btn">Give Now</Link>
         </div>
 
         <button
@@ -110,7 +110,7 @@ const Navbar = () => {
             {link.label}
           </Link>
         ))}
-        <Link to="/contact" className="btn-give">Give Now</Link>
+        <Link to="/give" className="btn-give">Give Now</Link>
       </div>
     </nav>
   );

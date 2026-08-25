@@ -1,0 +1,24 @@
+/* ===== COMING SOON PAGE ===== */
+
+.coming-soon-hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  padding: calc(var(--nav-height) + var(--space-4xl)) 0 var(--space-4xl);
+  background: var(--color-cream);
+  text-align: center;
+}
+
+.coming-soon-hero .container {
+  max-width: 560px;
+}
+
+.coming-soon-hero h1 {
+  font-size: var(--fs-h1);
+  margin: var(--space-md) 0;
+}
+
+.coming-soon-hero p {
+  color: var(--color-muted);
+  margin-bottom: var(--space-xl);
+}

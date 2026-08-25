@@ -217,11 +217,16 @@ const Home = () => {
         <div className="container">
           <div className="quick-links-grid">
             {quickLinks.map((link, i) => (
-              <div className="quick-link-card" key={i} id={`quick-link-${i}`}>
+              <Link
+                to="/contact#contact-form-wrapper"
+                className="quick-link-card"
+                key={i}
+                id={`quick-link-${i}`}
+              >
                 <div className="quick-link-icon">{link.icon}</div>
                 <h4>{link.title}</h4>
                 <p>{link.desc}</p>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -270,7 +275,7 @@ const Home = () => {
           <div className="events-header">
             <div>
               <span className="section-label">What's Happening</span>
-              <h2 className="section-title">DAILY EVENTS</h2>
+              <h2 className="section-title">Weekly Rhythm</h2>
             </div>
             <Link to="/ministries" className="btn btn-secondary" id="view-all-events">
               View All Events

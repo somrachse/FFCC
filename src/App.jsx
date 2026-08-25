@@ -8,6 +8,7 @@ import Ministries from './pages/Ministries/Ministries';
 import MinistryDetail from './pages/MinistryDetail/MinistryDetail';
 import Blog from './pages/Blog/Blog';
 import Contact from './pages/Contact/Contact';
+import ComingSoon from './pages/ComingSoon/ComingSoon';
 
 /* Scroll to top on route change, or to the target section when the link includes a #hash */
 function ScrollToTop() {
@@ -37,6 +38,7 @@ function App() {
         <Route path="/ministries/:slug" element={<MinistryDetail />} />
         <Route path="/blog" element={<Blog />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/give" element={<ComingSoon />} />
       </Routes>
       <Footer />
     </Router>

@@ -34,6 +34,7 @@ const Footer = () => {
           <div>
             <h4 className="footer-heading">Quick Links</h4>
             <div className="footer-links">
+              <Link to="/">Home</Link>
               <Link to="/about">About Us</Link>
               <Link to="/ministries">Ministries</Link>
               <Link to="/blog">Sermons</Link>
@@ -46,7 +47,7 @@ const Footer = () => {
           <div>
             <h4 className="footer-heading">Weekly Rhythm</h4>
             <div className="footer-links">
-              <span>Sunday Worship: 9:00 AM</span>
+              <span>Church Service (Sun): 9:00 AM</span>
               <span>Youth Service (Sat): 6:00 PM</span>
               <span>Soccer Ministry (Fri): 6:00 PM</span>
               <span>Creative Class (Thu): 6:30 PM</span>
