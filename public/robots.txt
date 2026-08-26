@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ffcccambodia.com/sitemap.xml
