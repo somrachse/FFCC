@@ -7,6 +7,10 @@ import youthImg from '../../assets/images/youth-ministry.jpg';
 import pastorMale from '../../assets/images/pastor-male.jpg';
 import './Blog.css';
 
+// TODO: replace with the corrected public URL once re-uploaded (the "._" filename
+// is a macOS resource-fork sidecar, not the real video, and the plain filename 403s)
+const featuredVideoUrl = 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/Video/All%20FFCC%20Video/A%20savior%20for%20all.mp4';
+
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState('All');
 
@@ -87,7 +91,15 @@ const Blog = () => {
         <div className="container">
           <div className="featured-card">
             <div className="featured-card-image">
-              <img src={bibleImg} alt="Featured post" />
+              <video
+                src={featuredVideoUrl}
+                poster={bibleImg}
+                controls
+                preload="metadata"
+                playsInline
+              >
+                Your browser does not support the video tag.
+              </video>
             </div>
             <div className="featured-card-body">
               <span className="featured-card-category">Featured Story</span>
