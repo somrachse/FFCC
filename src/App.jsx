@@ -26,12 +26,14 @@ function ScrollToTop() {
   return null;
 }
 
-function App() {
+/* Re-mounts on every URL change (including param-only changes, e.g. one
+   ministry slug to another) so the .page-transition entrance animation
+   always replays, instead of only on top-level page changes. */
+function AnimatedRoutes() {
+  const location = useLocation();
   return (
-    <Router>
-      <ScrollToTop />
-      <Navbar />
-      <Routes>
+    <div key={location.pathname} className="page-transition">
+      <Routes location={location}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/ministries" element={<Ministries />} />
@@ -40,6 +42,16 @@ function App() {
         <Route path="/contact" element={<Contact />} />
         <Route path="/give" element={<ComingSoon />} />
       </Routes>
+    </div>
+  );
+}
+
+function App() {
+  return (
+    <Router>
+      <ScrollToTop />
+      <Navbar />
+      <AnimatedRoutes />
       <Footer />
     </Router>
   );

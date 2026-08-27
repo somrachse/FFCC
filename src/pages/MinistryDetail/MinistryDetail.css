@@ -1,5 +1,20 @@
 /* ===== MINISTRY DETAIL PAGE ===== */
 
+#ministry-detail-page.is-exiting {
+  animation: ministry-detail-exit 0.35s ease forwards;
+}
+
+@keyframes ministry-detail-exit {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-24px);
+  }
+}
+
 .ministry-detail-hero {
   position: relative;
   height: 60vh;
@@ -36,11 +51,16 @@
   color: var(--color-white);
   opacity: 0.85;
   margin-bottom: var(--space-lg);
-  transition: opacity var(--transition-fast);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 
 .ministry-detail-back:hover {
   opacity: 1;
+  transform: translateX(-4px);
+}
+
+.ministry-detail-back:active {
+  transform: translateX(-8px);
 }
 
 .ministry-detail-badge {

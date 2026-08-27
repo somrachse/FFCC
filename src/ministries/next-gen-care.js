@@ -1,6 +1,6 @@
 export default {
   slug: 'next-gen-care',
-  image: 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/images/Worship.jpg',
+  image: 'https://pub-304b90dad58f41699efcc3007a04a444.r2.dev/Img/Leader_Picture/SchoolPack.jpg',
   badge: 'Next Gen Care',
   title: 'Next Gen Care & Sponsorship & Scholarship',
   desc: 'Student Dormitory, School Pack Project, Children Sponsorship Project, and University Scholarship Project.',

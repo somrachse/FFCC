@@ -1,9 +1,14 @@
-import { Link, Navigate, useParams } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom';
 import { getMinistryBySlug, ministries } from '../../ministries';
 import './MinistryDetail.css';
 
+const EXIT_ANIMATION_MS = 350;
+
 const MinistryDetail = () => {
   const { slug } = useParams();
+  const navigate = useNavigate();
+  const [isExiting, setIsExiting] = useState(false);
   const ministry = getMinistryBySlug(slug);
 
   if (!ministry) {
@@ -12,13 +17,19 @@ const MinistryDetail = () => {
 
   const otherMinistries = ministries.filter((m) => m.slug !== ministry.slug);
 
+  const handleBack = (e) => {
+    e.preventDefault();
+    setIsExiting(true);
+    setTimeout(() => navigate('/ministries'), EXIT_ANIMATION_MS);
+  };
+
   return (
-    <main id="ministry-detail-page">
+    <main id="ministry-detail-page" className={isExiting ? 'is-exiting' : ''}>
       <section className="ministry-detail-hero">
         <img src={ministry.image} alt={ministry.title} className="ministry-detail-hero-image" />
         <div className="ministry-detail-hero-overlay" />
         <div className="container ministry-detail-hero-content">
-          <Link to="/ministries" className="ministry-detail-back">← All Ministries</Link>
+          <a href="/ministries" onClick={handleBack} className="ministry-detail-back">← All Ministries</a>
           <span className="ministry-detail-badge">{ministry.badge}</span>
           <h1>{ministry.title}</h1>
         </div>
