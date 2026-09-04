@@ -36,9 +36,11 @@
 }
 
 .featured-card-image {
-  aspect-ratio: auto;
-  min-height: 400px;
+  aspect-ratio: 560 / 314;
   overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-dark);
+  margin: var(--space-md) 0 0 var(--space-md);
 }
 
 .featured-card-image img,
@@ -47,6 +49,17 @@
   height: 100%;
   object-fit: cover;
   transition: transform var(--transition-slow);
+}
+
+/* Facebook's SDK wraps the actual iframe in its own span with inline sizing,
+   so the fixed data-width/height it's given needs !important to override */
+.featured-card-image .fb-video,
+.featured-card-image .fb-video span,
+.featured-card-image iframe {
+  width: 100% !important;
+  height: 100% !important;
+  border: 0;
+  display: block;
 }
 
 .featured-card:hover .featured-card-image img,
@@ -82,6 +95,72 @@
 .featured-card-body > p {
   margin-bottom: var(--space-lg);
   line-height: 1.8;
+}
+
+.featured-desc p,
+.featured-desc-more-inner p {
+  margin-bottom: var(--space-md);
+  line-height: 1.8;
+}
+
+.featured-desc a,
+.featured-desc-more-inner a {
+  color: var(--color-olive-dark);
+  font-weight: 600;
+  word-break: break-word;
+}
+
+.featured-desc-more {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.featured-desc-more.expanded {
+  grid-template-rows: 1fr;
+}
+
+.featured-desc-more-inner {
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.featured-desc-more.expanded .featured-desc-more-inner {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.4s ease 0.15s, transform 0.4s ease 0.15s;
+}
+
+.featured-desc-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: var(--space-lg);
+  font-family: var(--font-body);
+  font-size: var(--fs-small);
+  font-weight: 600;
+  color: var(--color-olive-dark);
+  cursor: pointer;
+}
+
+.featured-desc-toggle:hover {
+  color: var(--color-olive-medium);
+}
+
+.featured-desc-toggle svg {
+  width: 18px;
+  height: 18px;
+  fill: currentColor;
+  transition: transform var(--transition-base);
+}
+
+.featured-desc-toggle svg.rotated {
+  transform: rotate(180deg);
 }
 
 .featured-card-meta {
@@ -151,6 +230,10 @@
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  /* start, not the stretch default — otherwise a much-taller Facebook post
+     embed in one card would force its row-mates to stretch to match it,
+     leaving huge empty gaps inside the shorter cards */
+  align-items: start;
   gap: var(--space-xl);
   margin-bottom: var(--space-2xl);
 }
@@ -161,6 +244,17 @@
   background: var(--color-white);
   border: 1px solid var(--color-border);
   transition: all var(--transition-base);
+}
+
+.blog-card-fb-embed {
+  aspect-ratio: 500 / 283;
+}
+
+.blog-card-fb-embed iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 .blog-card:hover {

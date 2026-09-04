@@ -1,29 +1,85 @@
-import { useState } from 'react';
-import churchImg from '../../assets/images/church-hero.jpg';
+import { useEffect, useRef, useState } from 'react';
 import communityImg from '../../assets/images/community-gathering.jpg';
 import worshipImg from '../../assets/images/worship-event.jpg';
-import bibleImg from '../../assets/images/bible-study.jpg';
 import youthImg from '../../assets/images/youth-ministry.jpg';
-import pastorMale from '../../assets/images/pastor-male.jpg';
+import bibleImg from '../../assets/images/bible-study.jpg';
 import './Blog.css';
 
-// TODO: replace with the corrected public URL once re-uploaded (the "._" filename
-// is a macOS resource-fork sidecar, not the real video, and the plain filename 403s)
-const featuredVideoUrl = 'https://web-picture.sgp1.cdn.digitaloceanspaces.com/Video/All%20FFCC%20Video/A%20savior%20for%20all.mp4';
+const featuredVideoUrl = 'https://www.facebook.com/reel/1599163541581668/';
+const reuniteLocationUrl = 'https://maps.app.goo.gl/4K2JWyaPYuCFzvf77?g_st=ac';
 
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState('All');
+  const [descExpanded, setDescExpanded] = useState(false);
+
+  // Facebook's plain iframe embed can't be play/paused from our JS at all
+  // (it's cross-origin), so scroll-triggered autoplay needs the SDK's
+  // Embedded Video Player API instead: load the SDK, subscribe to the
+  // player instance once it's ready, and drive play()/pause() off an
+  // IntersectionObserver on the video's container.
+  const featuredVideoWrapRef = useRef(null);
+  const featuredPlayerRef = useRef(null);
+  const shouldPlayRef = useRef(false);
+
+  useEffect(() => {
+    const setVisible = (visible) => {
+      shouldPlayRef.current = visible;
+      const player = featuredPlayerRef.current;
+      if (!player) return;
+      if (visible) player.play();
+      else player.pause();
+    };
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setVisible(entry.isIntersecting),
+      { threshold: 0.5 }
+    );
+    if (featuredVideoWrapRef.current) observer.observe(featuredVideoWrapRef.current);
+
+    const onXfbmlReady = (msg) => {
+      if (msg.type !== 'video') return;
+      featuredPlayerRef.current = msg.instance;
+      msg.instance.mute();
+      if (shouldPlayRef.current) msg.instance.play();
+    };
+
+    const initFB = () => {
+      window.FB.Event.subscribe('xfbml.ready', onXfbmlReady);
+      window.FB.XFBML.parse();
+    };
+
+    if (window.FB) {
+      initFB();
+    } else {
+      window.fbAsyncInit = () => {
+        window.FB.init({ xfbml: true, version: 'v21.0' });
+        initFB();
+      };
+      if (!document.getElementById('facebook-jssdk')) {
+        const script = document.createElement('script');
+        script.id = 'facebook-jssdk';
+        script.src = 'https://connect.facebook.net/en_US/sdk.js';
+        script.async = true;
+        script.defer = true;
+        script.crossOrigin = 'anonymous';
+        document.body.appendChild(script);
+      }
+    }
+
+    return () => {
+      observer.disconnect();
+      if (window.FB) window.FB.Event.unsubscribe('xfbml.ready', onXfbmlReady);
+    };
+  }, []);
 
   const categories = ['All', 'Faith & Testimony', 'Church Life', 'Children & Youth', 'Education & Students', 'Community Care'];
 
   const blogPosts = [
     {
-      image: churchImg,
       category: 'Church Life',
-      title: 'Finding Peace in the Storm',
-      excerpt: 'Discover how to find God\'s peace in the midst of life\'s greatest challenges and uncertainties.',
-      author: 'Phillip',
-      date: 'Jul 18, 2026',
+      title: 'Every place holds a legacy. 🏛️',
+      caption: "Here's a quick look at our Sombo Prei Kuk Student Field Trip—where history meets the next generation.\nThis is only the beginning. 🎥\nThe full video is coming soon. Don't miss it!",
+      facebookPostUrl: 'https://www.facebook.com/FaithfulFamilyofChristChurch/posts/pfbid02w5FZhEiHSPCQYE6neJazVwGwCDKvRkNKcLVTyeb1eem5GodzKUSjueAsoqMHtMhZl',
     },
     {
       image: communityImg,
@@ -90,36 +146,56 @@ const Blog = () => {
       <section className="featured-post" id="featured-post">
         <div className="container">
           <div className="featured-card">
-            <div className="featured-card-image">
-              <video
-                src={featuredVideoUrl}
-                poster={bibleImg}
-                controls
-                preload="metadata"
-                playsInline
-              >
-                Your browser does not support the video tag.
-              </video>
+            <div className="featured-card-image" ref={featuredVideoWrapRef}>
+              <div id="fb-root"></div>
+              <div
+                className="fb-video"
+                data-href={featuredVideoUrl}
+                data-width="560"
+                data-show-text="false"
+                data-allowfullscreen="true"
+              ></div>
             </div>
             <div className="featured-card-body">
               <span className="featured-card-category">Featured Story</span>
-              <h2>Walking in Grace: The Path of Forgiveness</h2>
-              <p>
-                Explore the transformative power of forgiveness and how God's grace
-                enables us to walk in freedom, releasing the burdens of the past
-                and embracing a future filled with hope.
-              </p>
-              <div className="featured-card-meta">
-                <div className="author">
-                  <div className="author-avatar">
-                    <img src={pastorMale} alt="Phillip" />
-                  </div>
-                  <span>Phillip</span>
-                </div>
-                <span>Jul 20, 2026</span>
-                <span>8 min read</span>
+              <h2>REUNITE</h2>
+              <div className="featured-desc">
+                <p>
+                  Greetings to all friends, brothers, and sisters in the love of Jesus Christ.<br />
+                  Today, our church has an exciting new.<br />
+                  This week, we will be hosting a special event for our Saturday Service called &ldquo;REUNITE&rdquo;.
+                </p>
               </div>
-              <a href="#" className="btn btn-primary" id="featured-read-btn">Read Full Article</a>
+              <div className={`featured-desc-more${descExpanded ? ' expanded' : ''}`}>
+                <div className="featured-desc-more-inner">
+                  <p>
+                    Therefore, we would like to encourage all youth who are part of the FFCC
+                    family—especially those who have been away from the church for
+                    years—to come and join us.
+                  </p>
+                  <p>
+                    Our event will take place this Saturday, the 29th. We look forward to
+                    welcoming everyone starting at 5:40 PM.
+                  </p>
+                  <p>
+                    Faithful Family of Christ Church Location:<br />
+                    <a href={reuniteLocationUrl} target="_blank" rel="noopener noreferrer">
+                      {reuniteLocationUrl}
+                    </a>
+                  </p>
+                </div>
+              </div>
+              <button
+                type="button"
+                className="featured-desc-toggle"
+                onClick={() => setDescExpanded(!descExpanded)}
+                id="featured-desc-toggle"
+              >
+                {descExpanded ? 'Read Less' : 'Read More'}
+                <svg viewBox="0 0 24 24" className={descExpanded ? 'rotated' : ''}>
+                  <path d="M7 10l5 5 5-5z" />
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -146,17 +222,48 @@ const Blog = () => {
           <div className="blog-grid">
             {filteredPosts.map((post, i) => (
               <article className="blog-card" key={i} id={`blog-card-${i}`}>
-                <div className="blog-card-image">
-                  <img src={post.image} alt={post.title} />
-                </div>
-                <div className="blog-card-body">
-                  <div className="blog-card-category">{post.category}</div>
-                  <h3>{post.title}</h3>
-                  <p>{post.excerpt}</p>
-                  <div className="blog-card-footer">
-                    <span>{post.date}</span>
-                  </div>
-                </div>
+                {post.facebookPostUrl ? (
+                  <>
+                    <div className="blog-card-fb-embed">
+                      <iframe
+                        src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(post.facebookPostUrl)}&show_text=false&width=500`}
+                        title={post.title}
+                        style={{ border: 'none', overflow: 'hidden' }}
+                        scrolling="no"
+                        frameBorder="0"
+                        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        allowFullScreen
+                      ></iframe>
+                    </div>
+                    <div className="blog-card-body">
+                      <h3>{post.title}</h3>
+                      {post.caption && (
+                        <p>
+                          {post.caption.split('\n').map((line, li) => (
+                            <span key={li}>
+                              {line}
+                              {li < post.caption.split('\n').length - 1 && <br />}
+                            </span>
+                          ))}
+                        </p>
+                      )}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="blog-card-image">
+                      <img src={post.image} alt={post.title} />
+                    </div>
+                    <div className="blog-card-body">
+                      <div className="blog-card-category">{post.category}</div>
+                      <h3>{post.title}</h3>
+                      <p>{post.excerpt}</p>
+                      <div className="blog-card-footer">
+                        <span>{post.date}</span>
+                      </div>
+                    </div>
+                  </>
+                )}
               </article>
             ))}
           </div>

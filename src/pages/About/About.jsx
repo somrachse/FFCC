@@ -388,7 +388,6 @@ const About = () => {
                 className={`team-card mentor-slide${i === mentorCenterIndex ? ' mentor-slide-center' : ''}`}
                 key={i}
                 id={`mentor-card-${i}`}
-                onClick={() => scrollMentorTo(i)}
               >
                 <div className="team-card-image">
                   <img src={mentor.image} alt={mentor.name} />
@@ -398,6 +397,24 @@ const About = () => {
                 <p>{mentor.desc}</p>
               </div>
             ))}
+          </div>
+          <div className="mentor-nav">
+            <button
+              type="button"
+              className="mentor-nav-btn"
+              onClick={() => scrollMentorTo(mentorCenterIndex - 1)}
+              aria-label="Previous leader"
+            >
+              <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            </button>
+            <button
+              type="button"
+              className="mentor-nav-btn"
+              onClick={() => scrollMentorTo(mentorCenterIndex + 1)}
+              aria-label="Next leader"
+            >
+              <svg viewBox="0 0 24 24"><path d="M8.59 16.59L10 18l6-6-6-6-1.41 1.41L13.17 12z"/></svg>
+            </button>
           </div>
         </div>
       </section>

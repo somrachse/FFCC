@@ -2,6 +2,7 @@ import { useState } from 'react';
 import './Contact.css';
 
 const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/VAWMqYxyQ3GPiW228';
+const WEB3FORMS_ACCESS_KEY = 'dddf080e-251f-40eb-9525-806a4cda4e74';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,15 +13,42 @@ const Contact = () => {
     subject: '',
     message: '',
   });
+  const [status, setStatus] = useState('idle');
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Thank you for your message! We will get back to you soon.');
-    setFormData({ firstName: '', lastName: '', email: '', phone: '', subject: '', message: '' });
+    setStatus('sending');
+
+    try {
+      const payload = new FormData();
+      payload.append('access_key', WEB3FORMS_ACCESS_KEY);
+      payload.append('subject', `FFCC Contact Form: ${formData.subject || 'General Inquiry'}`);
+      payload.append('name', `${formData.firstName} ${formData.lastName}`);
+      payload.append('email', formData.email);
+      payload.append('phone', formData.phone);
+      payload.append('topic', formData.subject);
+      payload.append('message', formData.message);
+
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: payload,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        setStatus('success');
+        setFormData({ firstName: '', lastName: '', email: '', phone: '', subject: '', message: '' });
+      } else {
+        setStatus('error');
+      }
+    } catch {
+      setStatus('error');
+    }
   };
 
   return (
@@ -196,9 +224,24 @@ const Contact = () => {
                     required
                   ></textarea>
                 </div>
-                <button type="submit" className="btn btn-primary btn-lg form-submit" id="contact-submit">
-                  Send Message
+                <button
+                  type="submit"
+                  className="btn btn-primary btn-lg form-submit"
+                  id="contact-submit"
+                  disabled={status === 'sending'}
+                >
+                  {status === 'sending' ? 'Sending...' : 'Send Message'}
                 </button>
+                {status === 'success' && (
+                  <p className="form-status form-status-success" role="status">
+                    Thank you for your message! We will get back to you soon.
+                  </p>
+                )}
+                {status === 'error' && (
+                  <p className="form-status form-status-error" role="alert">
+                    Something went wrong. Please try again or email us directly.
+                  </p>
+                )}
               </form>
             </div>
           </div>
