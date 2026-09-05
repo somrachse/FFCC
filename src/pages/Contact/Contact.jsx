@@ -2,7 +2,7 @@ import { useState } from 'react';
 import './Contact.css';
 
 const GOOGLE_MAPS_URL = 'https://maps.app.goo.gl/VAWMqYxyQ3GPiW228';
-const WEB3FORMS_ACCESS_KEY = 'dddf080e-251f-40eb-9525-806a4cda4e74';
+const WEB3FORMS_ACCESS_KEY = 'ce49fdf7-33e8-4d8c-871f-1156a91b2d88';
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -26,6 +26,7 @@ const Contact = () => {
     try {
       const payload = new FormData();
       payload.append('access_key', WEB3FORMS_ACCESS_KEY);
+      payload.append('from_name', 'FFCC Website');
       payload.append('subject', `FFCC Contact Form: ${formData.subject || 'General Inquiry'}`);
       payload.append('name', `${formData.firstName} ${formData.lastName}`);
       payload.append('email', formData.email);
