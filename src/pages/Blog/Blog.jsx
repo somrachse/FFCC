@@ -1,8 +1,4 @@
 import { useEffect, useRef, useState } from 'react';
-import communityImg from '../../assets/images/community-gathering.jpg';
-import worshipImg from '../../assets/images/worship-event.jpg';
-import youthImg from '../../assets/images/youth-ministry.jpg';
-import bibleImg from '../../assets/images/bible-study.jpg';
 import './Blog.css';
 
 const featuredVideoUrl = 'https://www.facebook.com/reel/1599163541581668/';
@@ -11,6 +7,8 @@ const reuniteLocationUrl = 'https://maps.app.goo.gl/4K2JWyaPYuCFzvf77?g_st=ac';
 const Blog = () => {
   const [activeCategory, setActiveCategory] = useState('All');
   const [descExpanded, setDescExpanded] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const POSTS_PER_PAGE = 6;
 
   // Facebook's plain iframe embed can't be play/paused from our JS at all
   // (it's cross-origin), so scroll-triggered autoplay needs the SDK's
@@ -72,60 +70,105 @@ const Blog = () => {
     };
   }, []);
 
-  const categories = ['All', 'Faith & Testimony', 'Church Life', 'Children & Youth', 'Education & Students', 'Community Care'];
+  const categories = ['All', 'Education', 'Creative Class', 'Soccer Ministry', 'Youth Service', 'Sunday Service', 'Events', 'Others'];
 
   const blogPosts = [
     {
-      category: 'Church Life',
-      title: 'Every place holds a legacy. 🏛️',
-      caption: "Here's a quick look at our Sombo Prei Kuk Student Field Trip—where history meets the next generation.\nThis is only the beginning. 🎥\nThe full video is coming soon. Don't miss it!",
-      facebookPostUrl: 'https://www.facebook.com/FaithfulFamilyofChristChurch/posts/pfbid02w5FZhEiHSPCQYE6neJazVwGwCDKvRkNKcLVTyeb1eem5GodzKUSjueAsoqMHtMhZl',
+      category: 'Creative Class',
+      title: 'Get Your Game Face On 🏆',
+      caption: "Get your game face on!\nAre you ready for an even more amazing and exciting week? We've got fun games, intense team competitions for points, and awesome grand prizes waiting for the winning team! 🏆\nMark your calendars for Week 4 (May 25, 2024)! We are hosting a special \"Graphic Design\" session where you'll learn the basics of creating cool posters for FREE from an experienced guest speaker! 💻🎨\nDon't forget to comment below to score extra points for your team! 🚀\nBecause the competition is officially heating up! 🔥",
+      facebookPostUrl: 'https://www.facebook.com/reel/1670022607385284/',
+      useVideoPlugin: true,
     },
     {
-      image: communityImg,
-      category: 'Community Care',
-      title: 'The Power of Serving Together',
-      excerpt: 'When we serve together as a church family, we experience the joy of community in its fullest form.',
-      author: 'Lean Chanreaksmey ("Smile")',
-      date: 'Jul 15, 2026',
+      category: 'Youth Service',
+      title: "NEW CAN'T FIX YOU 🛠️🚫",
+      caption: "Real transformation doesn't come from a checklist or a gimmick. It comes from the inside out. 🔄\nIt comes from renewing our minds and stepping into true freedom. 🕊️\nJoin us this Saturday evening at 6:00 PM for Youth Service. 🙌\nCome find the change you actually need. 🌟",
+      facebookPostUrl: 'https://www.facebook.com/reel/2529349774167877/',
     },
     {
-      image: worshipImg,
-      category: 'Faith & Testimony',
-      title: 'Morning Reflections: Psalm 23',
-      excerpt: 'A deep dive into the beloved Psalm 23 and what it means for our daily walk with God.',
-      author: 'Phillip',
-      date: 'July 10, 2026'
+      category: 'Soccer Ministry',
+      title: 'More Than a Game ⚽️',
+      caption: "Just like football players aim to score a goal, our goal is to spread the Good News. ⚽️📖\nWelcome to the FFCC Soccer Church Program! We're taking our youth Bible study to the pitch to share faith, community, and God's love with everyone around us.\n🗓 When: Every Friday\n⏰ Time: 6:00 PM – 8:00 PM\n🏃‍♂️ Activities: Warm-up, Training, Bible Study, and Matching!",
+      facebookPostUrl: 'https://www.facebook.com/reel/1316837470434087/',
     },
     {
-      image: youthImg,
-      category: 'Children & Youth',
-      title: 'Faith in the Next Generation',
-      excerpt: 'How our youth ministry is equipping young people to be leaders in their schools and communities.',
-      author: 'Ol Sotheavin ("Vin")',
-      date: 'Jul 8, 2026',
+      category: 'Saturday Service',
+      title: "The Life You Didn't Expect",
+      caption: "Don't let pain stop your journey, but allow Him to transform it into glory.\nAre you ready to become a shining gem?",
+      facebookPostUrl: 'https://www.facebook.com/reel/36442778698642458/',
+      useVideoPlugin: true,
     },
     {
-      image: bibleImg,
-      category: 'Faith & Testimony',
-      title: 'From Brokenness to Wholeness',
-      excerpt: 'A story of transformation and redemption through the grace of God, shared by a member of the FFCC family.',
-      author: 'FFCC Church Family',
-      date: 'Jul 5, 2026',
+      category: 'Education',
+      title: 'The Joy of Teaching 👨‍🏫✨',
+      caption: "\"Seeing students grow day by day is what inspires me to keep teaching.\"\nIn this interview, Teacher Nick shares his passion for teaching, the challenges he faces, and the joy of investing in the next generation. Thank you for your faithful service and dedication to every student 📚❤️",
+      facebookPostUrl: 'https://www.facebook.com/reel/789596277453650/',
+      useVideoPlugin: true,
     },
     {
-      image: bibleImg,
-      category: 'Education & Students',
-      title: 'Learning That Opens Doors',
-      excerpt: 'How FFCC\'s Education Ministry helps students grow in confidence, responsibility, and future opportunity.',
-      author: 'Ouch Sreyroth ("Elsie")',
-      date: 'Jul 1, 2026',
+      category: 'Education',
+      title: 'Field Trip Faith: Keat Farm 2025 🚌⛰️',
+      caption: "Unforgettable memories made at Keat Farm! 🚌⛰️ The FFCC Student Field Trip 2025 was packed with joy, teamwork, and beautiful moments in nature. But the highlight of our journey was gathering together to dig into the Word, share the Gospel, and ignite a passion to live for Jesus every single day. Watch our journey! 🕊️🌱",
+      facebookPostUrl: 'https://www.facebook.com/reel/953628703929308/',
+      useVideoPlugin: true,
+    },
+    {
+      category: 'Education',
+      title: 'Learning as an Adventure 🌟',
+      caption: "Learning is an adventure at FFCC Education! 🌟 Whether we're navigating the digital world in computer class or expressing our joy through music and drawing, every moment is a step forward.\nLove seeing our youth challenge themselves and our kids embrace the joy of learning. We aren't just a school; we're a family. ❤️\n\"Train up a child in the way he should go; even when he is old he will not depart from it.\" — Proverbs 22:6",
+      facebookPostUrl: 'https://www.facebook.com/reel/1635060521044654/',
+      useVideoPlugin: true,
+    },
+    {
+      category: 'Events',
+      title: 'He is risen! ✝️',
+      caption: "Matthew 28:6\n'He is not here; for He is risen, as He said...'",
+      facebookPostUrl: 'https://www.facebook.com/reel/1480892666770718/',
+      useVideoPlugin: true,
+    },
+    {
+      category: 'Others',
+      title: 'FFCC School Pack Project 2025',
+      caption: "Our mission transcends the simple provision of educational materials; it is about sowing seeds of faith 🌱 through His Church. We firmly believe that every child is a heritage from the Lord (Psalm 127:3). Therefore, we are honored to walk alongside them in their journey of spiritual growth ✨ and academic excellence 📚.\nIn 2025, by the grace of the Lord 🙏, we partnered with 27 churches 🏫 across Phnom Penh and various provinces, reaching 1,543 children and youths, delivering not only school packs 📚✏️🖍️ but also smiles and hope.\nWe extend our deepest gratitude 💐 to every leader, pastor, teacher, and youth volunteer 🤝 who labored in prayer 🙏 and sacrificially gave of their strength and heart 💛 to this mission.\nTo God be the glory!",
+      facebookPostUrl: 'https://www.facebook.com/reel/2013374609245267/',
+      useVideoPlugin: true,
+    },
+    {
+      category: 'Others',
+      title: 'Light in the Streets — Jesus, a Savior for all',
+      caption: "\"The light shines in the darkness, and the darkness has not overcome it.\"\nWe walked the streets of Phnom Penh, bringing small love gifts to the homeless, the cold, and the hungry sleeping in the dark alleys and hidden corners of the city.\nA simple reminder that they are not forgotten — they are seen, they are loved, and there is hope in Jesus.",
+      facebookPostUrl: 'https://www.facebook.com/reel/922595650468933/',
+      useVideoPlugin: true,
+    },
+    {
+      category: 'Others',
+      title: 'Shelter From the Storm: Dump Hill Tarp Project',
+      caption: "Each rainy season is a difficult time for the Dump Hill community 🌧️, and we count it a blessing to stand with them again this year. By covering homes with strong new tarps ⛺, we hope to give families warmth, shelter, and a reminder that God sees and cares for them. 🙏✨\nThank you to all our friends, supporters and volunteers whose generosity and willingness to serve make this ministry possible. 🤝💖 Your hands and hearts are the reason these families stay protected through the storms.",
+      facebookPostUrl: 'https://www.facebook.com/reel/1374847984294797/',
+      useVideoPlugin: true,
     },
   ];
 
-  const filteredPosts = activeCategory === 'All' 
-    ? blogPosts 
+  const filteredPosts = activeCategory === 'All'
+    ? blogPosts
     : blogPosts.filter(p => p.category === activeCategory);
+
+  const totalPages = Math.max(1, Math.ceil(filteredPosts.length / POSTS_PER_PAGE));
+  const paginatedPosts = filteredPosts.slice(
+    (currentPage - 1) * POSTS_PER_PAGE,
+    currentPage * POSTS_PER_PAGE
+  );
+
+  const handleCategoryClick = (cat) => {
+    setActiveCategory(cat);
+    setCurrentPage(1);
+  };
+
+  const goToPage = (page) => {
+    setCurrentPage(page);
+    document.getElementById('blog-categories')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
   return (
     <main id="blog-page">
@@ -210,7 +253,7 @@ const Blog = () => {
               <button
                 key={cat}
                 className={`category-btn ${activeCategory === cat ? 'active' : ''}`}
-                onClick={() => setActiveCategory(cat)}
+                onClick={() => handleCategoryClick(cat)}
                 id={`category-${cat.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`}
               >
                 {cat}
@@ -220,13 +263,15 @@ const Blog = () => {
 
           {/* Grid */}
           <div className="blog-grid">
-            {filteredPosts.map((post, i) => (
+            {paginatedPosts.map((post, i) => (
               <article className="blog-card" key={i} id={`blog-card-${i}`}>
                 {post.facebookPostUrl ? (
                   <>
                     <div className="blog-card-fb-embed">
                       <iframe
-                        src={`https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(post.facebookPostUrl)}&show_text=false&width=500`}
+                        src={post.useVideoPlugin
+                          ? `https://www.facebook.com/plugins/video.php?height=192&href=${encodeURIComponent(post.facebookPostUrl)}&show_text=false&width=340&t=0`
+                          : `https://www.facebook.com/plugins/post.php?href=${encodeURIComponent(post.facebookPostUrl)}&show_text=false&width=340`}
                         title={post.title}
                         style={{ border: 'none', overflow: 'hidden' }}
                         scrolling="no"
@@ -269,17 +314,35 @@ const Blog = () => {
           </div>
 
           {/* Pagination */}
-          <div className="pagination" id="blog-pagination">
-            <button className="pagination-btn" aria-label="Previous page">
-              <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
-            </button>
-            <button className="pagination-btn active">1</button>
-            <button className="pagination-btn">2</button>
-            <button className="pagination-btn">3</button>
-            <button className="pagination-btn" aria-label="Next page">
-              <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
-            </button>
-          </div>
+          {totalPages > 1 && (
+            <div className="pagination" id="blog-pagination">
+              <button
+                className="pagination-btn"
+                aria-label="Previous page"
+                disabled={currentPage === 1}
+                onClick={() => goToPage(Math.max(1, currentPage - 1))}
+              >
+                <svg viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+              </button>
+              {Array.from({ length: totalPages }, (_, idx) => idx + 1).map((page) => (
+                <button
+                  key={page}
+                  className={`pagination-btn ${currentPage === page ? 'active' : ''}`}
+                  onClick={() => goToPage(page)}
+                >
+                  {page}
+                </button>
+              ))}
+              <button
+                className="pagination-btn"
+                aria-label="Next page"
+                disabled={currentPage === totalPages}
+                onClick={() => goToPage(Math.min(totalPages, currentPage + 1))}
+              >
+                <svg viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+              </button>
+            </div>
+          )}
         </div>
       </section>
     </main>

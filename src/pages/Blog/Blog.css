@@ -197,6 +197,7 @@
   gap: var(--space-sm);
   margin-bottom: var(--space-2xl);
   flex-wrap: wrap;
+  scroll-margin-top: calc(var(--nav-height) + var(--space-lg));
 }
 
 .category-btn {
@@ -230,36 +231,38 @@
 .blog-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  /* start, not the stretch default — otherwise a much-taller Facebook post
-     embed in one card would force its row-mates to stretch to match it,
-     leaving huge empty gaps inside the shorter cards */
-  align-items: start;
+  align-items: stretch;
   gap: var(--space-xl);
   margin-bottom: var(--space-2xl);
 }
 
 .blog-card {
+  display: flex;
+  flex-direction: column;
   border-radius: var(--radius-lg);
   overflow: hidden;
   background: var(--color-white);
   border: 1px solid var(--color-border);
-  transition: all var(--transition-base);
 }
 
+/* Facebook's post plugin (video + header, no like/comment/share chrome)
+   renders at roughly 500/283 for this post. Capped at 340px on larger
+   cards but width: 100% + aspect-ratio (not a fixed height) so it scales
+   down proportionally instead of squishing on narrow screens. */
 .blog-card-fb-embed {
-  aspect-ratio: 500 / 283;
+  display: flex;
+  justify-content: center;
+  padding: var(--space-sm) 1px 1px;
 }
 
 .blog-card-fb-embed iframe {
   width: 100%;
-  height: 100%;
+  max-width: 340px;
+  aspect-ratio: 340 / 192;
+  height: auto;
   border: 0;
+  border-radius: var(--radius-md);
   display: block;
-}
-
-.blog-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
 }
 
 .blog-card-image {
@@ -271,15 +274,11 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition-slow);
-}
-
-.blog-card:hover .blog-card-image img {
-  transform: scale(1.05);
 }
 
 .blog-card-body {
   padding: var(--space-lg);
+  flex: 1;
 }
 
 .blog-card-category {
@@ -348,6 +347,15 @@
 
 .pagination-btn:hover:not(.active) {
   border-color: var(--color-olive-dark);
+}
+
+.pagination-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.pagination-btn:disabled:hover {
+  border-color: var(--color-border);
 }
 
 .pagination-btn svg {
